@@ -1,94 +1,53 @@
 [workspace]
 resolver = "2"
+
 members = [
     "crates/lunaris-core",
-    "crates/lunaris-renderer",
-    "crates/lunaris-physics",
-    "crates/lunaris-audio",
-    "crates/lunaris-scripting",
-    "crates/lunaris-ecs",
-    "crates/lunaris-assets",
-    "crates/lunaris-editor",
     "crates/lunaris-runtime",
+    "crates/lunaris-renderer",
+    "crates/lunaris-editor",
 ]
 
 [workspace.package]
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
-rust-version = "1.75"
-authors = ["Lunaris Team"]
-license = "MIT OR Apache-2.0"
+license = "MIT"
 repository = "https://github.com/gabrielima7/Lunaris"
+homepage = "https://lunaris.dev"
+documentation = "https://docs.lunaris.dev"
 readme = "README.md"
+keywords = ["game-engine", "gamedev", "graphics", "ecs", "rendering"]
+categories = ["game-engines", "graphics", "rendering"]
 
 [workspace.dependencies]
-# Core
-thiserror = "1.0"
-anyhow = "1.0"
-tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-
-# Async
-tokio = { version = "1.35", features = ["full"] }
-
-# Serialization
+glam = "0.25"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-toml = "0.8"
-
-# Math & Graphics
-glam = { version = "0.25", features = ["serde"] }
-wgpu = "0.19"
-winit = "0.29"
+thiserror = "1.0"
+log = "0.4"
+env_logger = "0.10"
+parking_lot = "0.12"
+rayon = "1.8"
+crossbeam = "0.8"
+hashbrown = "0.14"
+smallvec = "1.11"
+bitflags = "2.4"
 bytemuck = { version = "1.14", features = ["derive"] }
+image = "0.24"
+rand = "0.8"
 
-# ECS
-bevy_ecs = "0.12"
-
-# Scripting
-mlua = { version = "0.9", features = ["lua54", "vendored", "serialize", "send"] }
-
-# Testing
-criterion = { version = "0.5", features = ["html_reports"] }
-
-# Internal crates
-lunaris-core = { path = "crates/lunaris-core" }
-lunaris-renderer = { path = "crates/lunaris-renderer" }
-lunaris-physics = { path = "crates/lunaris-physics" }
-lunaris-audio = { path = "crates/lunaris-audio" }
-lunaris-scripting = { path = "crates/lunaris-scripting" }
-lunaris-ecs = { path = "crates/lunaris-ecs" }
-lunaris-assets = { path = "crates/lunaris-assets" }
-lunaris-editor = { path = "crates/lunaris-editor" }
-lunaris-runtime = { path = "crates/lunaris-runtime" }
-
-[workspace.lints.rust]
-unsafe_code = "warn"
-missing_docs = "warn"
-
-[workspace.lints.clippy]
-all = "warn"
-pedantic = "warn"
-nursery = "warn"
-cargo = "warn"
-# Allow some pedantic lints that are too strict
-module_name_repetitions = "allow"
-too_many_lines = "allow"
-similar_names = "allow"
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+panic = "abort"
+strip = true
 
 [profile.dev]
 opt-level = 1
+debug = true
 
-[profile.dev.package."*"]
+[profile.bench]
 opt-level = 3
-
-[profile.release]
-lto = "thin"
-codegen-units = 16
-strip = "debuginfo"
-
-[profile.release-optimized]
-inherits = "release"
-lto = "fat"
-codegen-units = 1
-strip = true
+debug = false
+lto = true

@@ -1,159 +1,247 @@
 # Contributing to Lunaris Engine
 
-Thank you for your interest in contributing to Lunaris! 🎮
+Thank you for your interest in contributing to Lunaris! This document provides guidelines and instructions for contributing.
 
-## 🚀 Quick Start
+## Table of Contents
 
-1. **Fork** the repository
-2. **Clone** your fork: `git clone https://github.com/YOUR_USERNAME/Lunaris.git`
-3. **Create a branch**: `git checkout -b feature/my-feature`
-4. **Make changes** and commit: `git commit -m "feat: add my feature"`
-5. **Push**: `git push origin feature/my-feature`
-6. **Open a Pull Request**
+- [Code of Conduct](#code-of-conduct)
+- [Getting Started](#getting-started)
+- [Development Setup](#development-setup)
+- [Making Changes](#making-changes)
+- [Pull Request Process](#pull-request-process)
+- [Coding Standards](#coding-standards)
+- [Testing](#testing)
+- [Documentation](#documentation)
 
-## 📋 Development Setup
+---
+
+## Code of Conduct
+
+By participating in this project, you agree to maintain a respectful and inclusive environment. We do not tolerate harassment, discrimination, or disrespectful behavior.
+
+---
+
+## Getting Started
 
 ### Prerequisites
 
-- **Rust 1.75+**: Install via [rustup](https://rustup.rs)
-- **Git**: For version control
-- **GPU**: Vulkan, Metal, or DX12 compatible
+- Rust 1.75 or later
+- Git
+- A code editor (VS Code with rust-analyzer recommended)
+
+### Fork and Clone
+
+```bash
+# Fork the repository on GitHub, then:
+git clone https://github.com/YOUR_USERNAME/Lunaris.git
+cd Lunaris
+git remote add upstream https://github.com/gabrielima7/Lunaris.git
+```
+
+---
+
+## Development Setup
 
 ### Build
 
 ```bash
-# Clone
-git clone https://github.com/gabrielima7/Lunaris.git
-cd Lunaris
+# Debug build
+cargo build
 
-# Build
-cargo build --workspace
+# Release build
+cargo build --release
 
-# Test
-cargo test --workspace
-
-# Run lints
-cargo clippy --workspace -- -D warnings
-
-# Format
-cargo fmt --all
+# Build specific crate
+cargo build -p lunaris-renderer
 ```
 
-## 📝 Commit Convention
+### Run Tests
 
-We use **Conventional Commits**:
+```bash
+# All tests
+cargo test
 
-| Type | Description |
-|------|-------------|
-| `feat` | New feature |
-| `fix` | Bug fix |
-| `docs` | Documentation |
-| `style` | Formatting (no code change) |
-| `refactor` | Code refactoring |
-| `test` | Add/fix tests |
-| `chore` | Build/tooling |
-| `perf` | Performance |
+# Specific crate
+cargo test -p lunaris-core
 
-**Examples:**
-```
-feat: add hardware ray tracing support
-fix: resolve memory leak in asset loader
-docs: update README with examples
+# With output
+cargo test -- --nocapture
 ```
 
-## 🏗️ Project Structure
+### Run Lints
 
-```
-Lunaris/
-├── crates/
-│   ├── lunaris-core       # Core utilities
-│   ├── lunaris-ecs        # Entity Component System
-│   ├── lunaris-renderer   # GPU rendering
-│   ├── lunaris-physics    # Physics simulation
-│   ├── lunaris-audio      # Audio system
-│   ├── lunaris-scripting  # Lua + Blueprints
-│   ├── lunaris-assets     # Asset management
-│   ├── lunaris-editor     # Visual editor
-│   └── lunaris-runtime    # Game runtime
-├── examples/              # Example games
-├── docs/                  # Documentation
-└── tests/                 # Integration tests
+```bash
+# Format check
+cargo fmt --all -- --check
+
+# Clippy
+cargo clippy --all-targets --all-features -- -D warnings
+
+# Both
+cargo fmt && cargo clippy
 ```
 
-## 🎯 Areas to Contribute
+---
 
-### 🟢 Good First Issues
-- Documentation improvements
-- Code comments
-- Example projects
-- Typo fixes
+## Making Changes
 
-### 🟡 Intermediate
-- New asset importers
-- UI widgets
-- Audio effects
-- Shader improvements
+### Branch Naming
 
-### 🔴 Advanced
-- Platform backends (consoles)
-- Rendering features
-- Physics improvements
-- Networking systems
+```
+feature/description    # New features
+fix/description        # Bug fixes
+docs/description       # Documentation
+refactor/description   # Code refactoring
+perf/description       # Performance improvements
+```
 
-## 📐 Code Guidelines
+### Commit Messages
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+feat: add new rendering feature
+fix: resolve memory leak in physics
+docs: update API documentation
+refactor: simplify ECS internals
+perf: optimize mesh processing
+test: add unit tests for audio
+```
+
+### Example Workflow
+
+```bash
+# Update main
+git checkout main
+git pull upstream main
+
+# Create feature branch
+git checkout -b feature/amazing-feature
+
+# Make changes
+# ... edit files ...
+
+# Stage and commit
+git add .
+git commit -m "feat: add amazing feature"
+
+# Push
+git push origin feature/amazing-feature
+
+# Create PR on GitHub
+```
+
+---
+
+## Pull Request Process
+
+### Before Submitting
+
+1. ✅ Tests pass: `cargo test`
+2. ✅ Lints pass: `cargo clippy`
+3. ✅ Formatted: `cargo fmt`
+4. ✅ Documentation updated
+5. ✅ CHANGELOG.md updated (for significant changes)
+
+### PR Template
+
+```markdown
+## Description
+
+Brief description of changes.
+
+## Type of Change
+
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation update
+
+## Testing
+
+Describe how you tested the changes.
+
+## Checklist
+
+- [ ] Tests pass
+- [ ] Code is formatted
+- [ ] Documentation updated
+```
+
+### Review Process
+
+1. Automated CI checks run
+2. Maintainers review code
+3. Address feedback
+4. Approval and merge
+
+---
+
+## Coding Standards
 
 ### Rust Style
 
 ```rust
-// ✅ Good
-pub fn calculate_damage(base: f32, multiplier: f32) -> f32 {
-    base * multiplier
-}
+// Use descriptive names
+pub struct PlayerController { ... }
 
-// ❌ Bad
-pub fn calc(b:f32,m:f32)->f32{b*m}
-```
-
-### Documentation
-
-```rust
-/// Calculate damage with multiplier
-///
-/// # Arguments
-///
-/// * `base` - Base damage value
-/// * `multiplier` - Damage multiplier
-///
-/// # Returns
-///
-/// Final damage value
-///
+// Document public items
+/// A component that handles player movement.
+/// 
 /// # Example
-///
 /// ```
-/// let damage = calculate_damage(10.0, 1.5);
-/// assert_eq!(damage, 15.0);
+/// let controller = PlayerController::new(speed);
 /// ```
-pub fn calculate_damage(base: f32, multiplier: f32) -> f32 {
-    base * multiplier
+pub struct PlayerController { ... }
+
+// Use Result for fallible operations
+pub fn load_asset(path: &str) -> Result<Asset, LoadError> { ... }
+
+// Prefer explicit error types
+#[derive(Debug, thiserror::Error)]
+pub enum LoadError {
+    #[error("file not found: {0}")]
+    NotFound(String),
+    #[error("invalid format")]
+    InvalidFormat,
 }
 ```
 
-### Error Handling
+### File Organization
 
 ```rust
-// ✅ Use Result for fallible operations
-pub fn load_asset(path: &Path) -> Result<Asset, Error> {
-    // ...
+// Imports
+use std::collections::HashMap;
+use glam::Vec3;
+
+// Constants
+const MAX_ENTITIES: usize = 10000;
+
+// Types
+pub struct MySystem { ... }
+
+// Implementations
+impl MySystem {
+    pub fn new() -> Self { ... }
+    pub fn update(&mut self) { ... }
 }
 
-// ❌ Don't panic in library code
-pub fn load_asset(path: &Path) -> Asset {
-    panic!("Failed!"); // Never do this
+// Private functions
+fn helper_function() { ... }
+
+// Tests
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+    #[test]
+    fn test_my_system() { ... }
 }
 ```
 
-## 🧪 Testing
+---
+
+## Testing
 
 ### Unit Tests
 
@@ -163,53 +251,113 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_damage_calculation() {
-        let damage = calculate_damage(10.0, 2.0);
-        assert_eq!(damage, 20.0);
+    fn test_addition() {
+        let result = add(2, 2);
+        assert_eq!(result, 4);
+    }
+
+    #[test]
+    fn test_with_fixtures() {
+        let system = TestSystem::default();
+        system.run();
+        assert!(system.completed());
     }
 }
 ```
 
-### Run Tests
+### Integration Tests
 
-```bash
-# All tests
-cargo test --workspace
+Place in `tests/` directory:
 
-# Specific crate
-cargo test -p lunaris-core
+```rust
+// tests/integration_test.rs
+use lunaris::prelude::*;
 
-# With output
-cargo test -- --nocapture
+#[test]
+fn test_full_system() {
+    let app = App::new();
+    // Test full system
+}
 ```
 
-## 🔍 Pull Request Checklist
+### Benchmarks
 
-- [ ] Code compiles without warnings
-- [ ] All tests pass
-- [ ] Code is formatted (`cargo fmt`)
-- [ ] Clippy passes (`cargo clippy`)
-- [ ] Documentation added/updated
-- [ ] Commit messages follow convention
-- [ ] PR description explains changes
-
-## 📜 License
-
-By contributing, you agree that your contributions will be licensed under MIT.
-
-## 🤝 Code of Conduct
-
-- Be respectful and inclusive
-- Constructive feedback only
-- Help others learn
-- No harassment or discrimination
-
-## 💬 Getting Help
-
-- **Discord**: [Coming soon]
-- **GitHub Issues**: For bugs and features
-- **Discussions**: For questions
+```rust
+#[bench]
+fn bench_update(b: &mut Bencher) {
+    let mut system = System::new();
+    b.iter(|| {
+        system.update(0.016);
+    });
+}
+```
 
 ---
 
-Thank you for contributing to Lunaris! 🌙
+## Documentation
+
+### Code Documentation
+
+```rust
+/// Short description of the item.
+///
+/// Longer description with more details about behavior,
+/// use cases, and important notes.
+///
+/// # Arguments
+///
+/// * `param1` - Description of first parameter
+/// * `param2` - Description of second parameter
+///
+/// # Returns
+///
+/// Description of return value.
+///
+/// # Errors
+///
+/// * `ErrorType` - When this error occurs
+///
+/// # Examples
+///
+/// ```
+/// use lunaris::MyStruct;
+///
+/// let instance = MyStruct::new();
+/// instance.do_something();
+/// ```
+///
+/// # Panics
+///
+/// Panics if invalid input is provided.
+pub fn my_function(param1: i32, param2: &str) -> Result<(), Error> {
+    // ...
+}
+```
+
+### Building Docs
+
+```bash
+# Build documentation
+cargo doc --no-deps --all-features
+
+# Open in browser
+cargo doc --open
+```
+
+---
+
+## Getting Help
+
+- 📖 [Documentation](https://docs.lunaris.dev)
+- 💬 [Discord](https://discord.gg/lunaris)
+- 🐛 [GitHub Issues](https://github.com/gabrielima7/Lunaris/issues)
+
+---
+
+## License
+
+By contributing, you agree that your contributions will be licensed under the MIT License.
+
+---
+
+Thank you for contributing! 🌙
