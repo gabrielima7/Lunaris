@@ -7,10 +7,13 @@
 #![warn(missing_docs)]
 #![warn(clippy::all)]
 
+pub mod dock;
 pub mod gizmo;
 pub mod panels;
+pub mod properties;
 pub mod timeline;
 pub mod ui;
+pub mod widgets;
 pub mod world_builder;
 
 pub use gizmo::{Gizmo, GizmoAxis, GizmoType};
