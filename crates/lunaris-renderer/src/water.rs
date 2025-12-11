@@ -1,374 +1,141 @@
-//! Water Rendering
+//! Water System
 //!
-//! Realistic water with reflections, refractions, waves, and caustics.
+//! Ocean, rivers, and underwater rendering.
 
-use glam::{Vec2, Vec3, Vec4, Mat4};
+use glam::{Vec2, Vec3, Vec4};
 
-/// Water configuration
-#[derive(Debug, Clone)]
-pub struct WaterConfig {
-    /// Water color (shallow)
-    pub shallow_color: Vec3,
-    /// Water color (deep)
-    pub deep_color: Vec3,
-    /// Depth for color transition
-    pub color_depth: f32,
-    /// Transparency
-    pub transparency: f32,
-    /// Refraction strength
-    pub refraction: f32,
-    /// Fresnel power
+/// Water body
+pub struct WaterBody {
+    pub id: u64,
+    pub water_type: WaterType,
+    pub surface: WaterSurface,
+    pub material: WaterMaterial,
+    pub physics: WaterPhysics,
+    pub bounds: WaterBounds,
+}
+
+/// Water type
+pub enum WaterType {
+    Ocean { depth: f32, wave_direction: Vec2 },
+    Lake { depth: f32 },
+    River { flow_speed: f32, flow_direction: Vec2, width: f32 },
+    Pool { depth: f32 },
+}
+
+/// Water surface
+pub struct WaterSurface {
+    pub wave_amplitude: f32,
+    pub wave_frequency: f32,
+    pub wave_speed: f32,
+    pub wave_steepness: f32,
+    pub detail_waves: bool,
+    pub foam_amount: f32,
+    pub caustics_intensity: f32,
+}
+
+impl Default for WaterSurface {
+    fn default() -> Self {
+        Self { wave_amplitude: 0.5, wave_frequency: 0.1, wave_speed: 1.0, wave_steepness: 0.5, detail_waves: true, foam_amount: 0.3, caustics_intensity: 0.5 }
+    }
+}
+
+/// Water material
+pub struct WaterMaterial {
+    pub shallow_color: Vec4,
+    pub deep_color: Vec4,
+    pub absorption: Vec3,
+    pub scattering: f32,
+    pub refraction_strength: f32,
+    pub reflection_strength: f32,
     pub fresnel_power: f32,
-    /// Specular intensity
-    pub specular: f32,
-    /// Specular power
     pub specular_power: f32,
-    /// Foam color
-    pub foam_color: Vec3,
-    /// Foam distance
-    pub foam_distance: f32,
+    pub normal_strength: f32,
 }
 
-impl Default for WaterConfig {
+impl Default for WaterMaterial {
     fn default() -> Self {
         Self {
-            shallow_color: Vec3::new(0.0, 0.3, 0.5),
-            deep_color: Vec3::new(0.0, 0.1, 0.2),
-            color_depth: 5.0,
-            transparency: 0.8,
-            refraction: 0.02,
+            shallow_color: Vec4::new(0.1, 0.4, 0.5, 0.8),
+            deep_color: Vec4::new(0.0, 0.1, 0.2, 1.0),
+            absorption: Vec3::new(0.5, 0.2, 0.1),
+            scattering: 0.3,
+            refraction_strength: 0.5,
+            reflection_strength: 0.8,
             fresnel_power: 5.0,
-            specular: 1.0,
             specular_power: 256.0,
-            foam_color: Vec3::ONE,
-            foam_distance: 0.5,
+            normal_strength: 1.0,
         }
     }
 }
 
-/// Wave parameters
-#[derive(Debug, Clone)]
-pub struct WaveParams {
-    /// Direction (normalized XZ)
-    pub direction: Vec2,
-    /// Wavelength
-    pub wavelength: f32,
-    /// Amplitude
-    pub amplitude: f32,
-    /// Speed
-    pub speed: f32,
-    /// Steepness (Gerstner, 0-1)
-    pub steepness: f32,
+/// Water physics
+pub struct WaterPhysics {
+    pub density: f32,
+    pub viscosity: f32,
+    pub buoyancy_damping: f32,
+    pub splash_particles: bool,
+    pub ripple_simulation: bool,
 }
 
-impl Default for WaveParams {
+impl Default for WaterPhysics {
     fn default() -> Self {
+        Self { density: 1000.0, viscosity: 1.0, buoyancy_damping: 0.5, splash_particles: true, ripple_simulation: true }
+    }
+}
+
+/// Water bounds
+pub struct WaterBounds {
+    pub min: Vec3,
+    pub max: Vec3,
+    pub surface_height: f32,
+}
+
+impl WaterBody {
+    pub fn ocean(height: f32, size: f32) -> Self {
         Self {
-            direction: Vec2::new(1.0, 0.0),
-            wavelength: 10.0,
-            amplitude: 0.5,
-            speed: 2.0,
-            steepness: 0.5,
-        }
-    }
-}
-
-/// Gerstner wave calculation
-pub struct GerstnerWave {
-    /// Wave layers
-    pub waves: Vec<WaveParams>,
-}
-
-impl Default for GerstnerWave {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
-impl GerstnerWave {
-    /// Create default wave set
-    #[must_use]
-    pub fn new() -> Self {
-        Self {
-            waves: vec![
-                WaveParams {
-                    direction: Vec2::new(1.0, 0.0).normalize(),
-                    wavelength: 20.0,
-                    amplitude: 0.3,
-                    speed: 2.0,
-                    steepness: 0.4,
-                },
-                WaveParams {
-                    direction: Vec2::new(0.7, 0.7).normalize(),
-                    wavelength: 10.0,
-                    amplitude: 0.15,
-                    speed: 1.5,
-                    steepness: 0.5,
-                },
-                WaveParams {
-                    direction: Vec2::new(-0.3, 0.9).normalize(),
-                    wavelength: 5.0,
-                    amplitude: 0.08,
-                    speed: 1.0,
-                    steepness: 0.6,
-                },
-                WaveParams {
-                    direction: Vec2::new(0.5, -0.8).normalize(),
-                    wavelength: 3.0,
-                    amplitude: 0.04,
-                    speed: 0.8,
-                    steepness: 0.3,
-                },
-            ],
+            id: 1,
+            water_type: WaterType::Ocean { depth: 100.0, wave_direction: Vec2::new(1.0, 0.5).normalize() },
+            surface: WaterSurface::default(),
+            material: WaterMaterial::default(),
+            physics: WaterPhysics::default(),
+            bounds: WaterBounds { min: Vec3::new(-size, -100.0, -size), max: Vec3::new(size, height, size), surface_height: height },
         }
     }
 
-    /// Calculate wave displacement at point
-    #[must_use]
-    pub fn calculate(&self, position: Vec2, time: f32) -> (Vec3, Vec3) {
-        let mut displacement = Vec3::ZERO;
-        let mut normal = Vec3::Y;
-        let mut tangent = Vec3::X;
-        let mut binormal = Vec3::Z;
-
-        for wave in &self.waves {
-            let k = 2.0 * std::f32::consts::PI / wave.wavelength;
-            let c = wave.speed;
-            let d = wave.direction;
-            let a = wave.amplitude;
-            let q = wave.steepness / (k * a * self.waves.len() as f32);
-
-            let phase = k * (d.x * position.x + d.y * position.y) - c * time;
-            let sin_phase = phase.sin();
-            let cos_phase = phase.cos();
-
-            // Gerstner displacement
-            displacement.x += q * a * d.x * cos_phase;
-            displacement.y += a * sin_phase;
-            displacement.z += q * a * d.y * cos_phase;
-
-            // Normal calculation
-            let wa = k * a;
-            let s = sin_phase;
-            let c = cos_phase;
-
-            tangent.x -= q * d.x * d.x * wa * s;
-            tangent.y += d.x * wa * c;
-            tangent.z -= q * d.x * d.y * wa * s;
-
-            binormal.x -= q * d.x * d.y * wa * s;
-            binormal.y += d.y * wa * c;
-            binormal.z -= q * d.y * d.y * wa * s;
-        }
-
-        normal = binormal.cross(tangent).normalize();
-
-        (displacement, normal)
+    pub fn get_height(&self, pos: Vec2, time: f32) -> f32 {
+        let base = self.bounds.surface_height;
+        let wave = (pos.x * self.surface.wave_frequency + time * self.surface.wave_speed).sin() * self.surface.wave_amplitude;
+        let wave2 = (pos.y * self.surface.wave_frequency * 0.7 + time * self.surface.wave_speed * 0.8).sin() * self.surface.wave_amplitude * 0.5;
+        base + wave + wave2
     }
 
-    /// Get displaced position
-    #[must_use]
-    pub fn displaced_position(&self, position: Vec3, time: f32) -> Vec3 {
-        let (disp, _) = self.calculate(Vec2::new(position.x, position.z), time);
-        position + disp
-    }
-}
-
-/// Ocean/water plane
-#[derive(Debug, Clone)]
-pub struct WaterPlane {
-    /// Configuration
-    pub config: WaterConfig,
-    /// Wave generator
-    waves: GerstnerWave,
-    /// Water level (Y position)
-    pub water_level: f32,
-    /// Size (half extents)
-    pub size: Vec2,
-    /// Tessellation level
-    pub tessellation: u32,
-    /// Enable reflections
-    pub reflections: bool,
-    /// Enable refractions
-    pub refractions: bool,
-    /// Enable caustics
-    pub caustics: bool,
-    /// Current time
-    time: f32,
-}
-
-impl Default for WaterPlane {
-    fn default() -> Self {
-        Self::new(0.0, Vec2::splat(100.0))
-    }
-}
-
-impl WaterPlane {
-    /// Create a new water plane
-    #[must_use]
-    pub fn new(water_level: f32, size: Vec2) -> Self {
-        Self {
-            config: WaterConfig::default(),
-            waves: GerstnerWave::new(),
-            water_level,
-            size,
-            tessellation: 64,
-            reflections: true,
-            refractions: true,
-            caustics: true,
-            time: 0.0,
+    pub fn get_buoyancy(&self, pos: Vec3, volume: f32) -> Vec3 {
+        let water_height = self.get_height(Vec2::new(pos.x, pos.z), 0.0);
+        if pos.y < water_height {
+            let submerged = (water_height - pos.y).min(1.0);
+            Vec3::Y * self.physics.density * volume * 9.81 * submerged
+        } else {
+            Vec3::ZERO
         }
     }
 
-    /// Update water
-    pub fn update(&mut self, delta_time: f32) {
-        self.time += delta_time;
-    }
-
-    /// Get wave height at position
-    #[must_use]
-    pub fn height_at(&self, x: f32, z: f32) -> f32 {
-        let (disp, _) = self.waves.calculate(Vec2::new(x, z), self.time);
-        self.water_level + disp.y
-    }
-
-    /// Get wave normal at position
-    #[must_use]
-    pub fn normal_at(&self, x: f32, z: f32) -> Vec3 {
-        let (_, normal) = self.waves.calculate(Vec2::new(x, z), self.time);
-        normal
-    }
-
-    /// Calculate water color at depth
-    #[must_use]
-    pub fn color_at_depth(&self, depth: f32) -> Vec3 {
-        let t = (depth / self.config.color_depth).clamp(0.0, 1.0);
-        self.config.shallow_color.lerp(self.config.deep_color, t)
-    }
-
-    /// Calculate fresnel
-    #[must_use]
-    pub fn fresnel(&self, view_dir: Vec3, normal: Vec3) -> f32 {
-        let n_dot_v = normal.dot(view_dir).max(0.0);
-        (1.0 - n_dot_v).powf(self.config.fresnel_power)
-    }
-
-    /// Get reflection matrix (for planar reflections)
-    #[must_use]
-    pub fn reflection_matrix(&self) -> Mat4 {
-        // Reflect around water plane Y = water_level
-        Mat4::from_cols_array(&[
-            1.0, 0.0, 0.0, 0.0,
-            0.0, -1.0, 0.0, 0.0,
-            0.0, 0.0, 1.0, 0.0,
-            0.0, 2.0 * self.water_level, 0.0, 1.0,
-        ])
-    }
-
-    /// Get clipping plane for reflections
-    #[must_use]
-    pub fn clip_plane_above(&self) -> Vec4 {
-        Vec4::new(0.0, 1.0, 0.0, -self.water_level)
-    }
-
-    /// Get clipping plane for refractions
-    #[must_use]
-    pub fn clip_plane_below(&self) -> Vec4 {
-        Vec4::new(0.0, -1.0, 0.0, self.water_level)
-    }
-
-    /// Is point underwater
-    #[must_use]
-    pub fn is_underwater(&self, point: Vec3) -> bool {
-        point.y < self.height_at(point.x, point.z)
-    }
-
-    /// Get current time
-    #[must_use]
-    pub fn time(&self) -> f32 {
-        self.time
-    }
-
-    /// Generate grid vertices
-    #[must_use]
-    pub fn generate_grid(&self) -> (Vec<Vec3>, Vec<Vec3>, Vec<Vec2>, Vec<u32>) {
-        let mut positions = Vec::new();
-        let mut normals = Vec::new();
-        let mut uvs = Vec::new();
-        let mut indices = Vec::new();
-
-        let step = 2.0 * self.size / self.tessellation as f32;
-        
-        for z in 0..=self.tessellation {
-            for x in 0..=self.tessellation {
-                let px = -self.size.x + x as f32 * step.x;
-                let pz = -self.size.y + z as f32 * step.y;
-                
-                let (disp, normal) = self.waves.calculate(Vec2::new(px, pz), self.time);
-                
-                positions.push(Vec3::new(px + disp.x, self.water_level + disp.y, pz + disp.z));
-                normals.push(normal);
-                uvs.push(Vec2::new(x as f32 / self.tessellation as f32, z as f32 / self.tessellation as f32));
-            }
-        }
-
-        // Generate indices
-        for z in 0..self.tessellation {
-            for x in 0..self.tessellation {
-                let i = z * (self.tessellation + 1) + x;
-                indices.push(i);
-                indices.push(i + self.tessellation + 1);
-                indices.push(i + 1);
-                indices.push(i + 1);
-                indices.push(i + self.tessellation + 1);
-                indices.push(i + self.tessellation + 2);
-            }
-        }
-
-        (positions, normals, uvs, indices)
+    pub fn is_underwater(&self, pos: Vec3, time: f32) -> bool {
+        pos.y < self.get_height(Vec2::new(pos.x, pos.z), time)
     }
 }
 
 /// Underwater effects
-#[derive(Debug, Clone)]
-pub struct UnderwaterEffect {
-    /// Fog color
-    pub fog_color: Vec3,
-    /// Fog density
+pub struct UnderwaterEffects {
     pub fog_density: f32,
-    /// Caustics intensity
-    pub caustics_intensity: f32,
-    /// Distortion strength
+    pub fog_color: Vec3,
+    pub caustics_enabled: bool,
     pub distortion: f32,
-    /// Light attenuation
-    pub light_attenuation: Vec3,
+    pub god_rays: bool,
+    pub bubble_particles: bool,
 }
 
-impl Default for UnderwaterEffect {
+impl Default for UnderwaterEffects {
     fn default() -> Self {
-        Self {
-            fog_color: Vec3::new(0.0, 0.2, 0.3),
-            fog_density: 0.1,
-            caustics_intensity: 0.5,
-            distortion: 0.01,
-            light_attenuation: Vec3::new(0.5, 0.8, 0.95),
-        }
-    }
-}
-
-impl UnderwaterEffect {
-    /// Calculate light at depth
-    #[must_use]
-    pub fn light_at_depth(&self, depth: f32) -> Vec3 {
-        let r = (-self.light_attenuation.x * depth).exp();
-        let g = (-self.light_attenuation.y * depth).exp();
-        let b = (-self.light_attenuation.z * depth).exp();
-        Vec3::new(r, g, b)
-    }
-
-    /// Calculate fog factor
-    #[must_use]
-    pub fn fog_factor(&self, distance: f32) -> f32 {
-        1.0 - (-self.fog_density * distance).exp()
+        Self { fog_density: 0.02, fog_color: Vec3::new(0.0, 0.2, 0.3), caustics_enabled: true, distortion: 0.02, god_rays: true, bubble_particles: true }
     }
 }
