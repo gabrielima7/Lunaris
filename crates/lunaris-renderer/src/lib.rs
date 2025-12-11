@@ -18,14 +18,19 @@
 pub mod animation;
 pub mod camera;
 pub mod debug_draw;
+pub mod gi;
 pub mod gpu;
+pub mod ik;
 pub mod lod;
 pub mod material;
 pub mod mesh;
+pub mod motion_matching;
 pub mod particles;
 pub mod pipeline2d;
 pub mod pipeline3d;
 pub mod postprocess;
+pub mod raytracing;
+pub mod ssr;
 pub mod terrain;
 pub mod texture;
 

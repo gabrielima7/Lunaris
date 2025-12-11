@@ -9,8 +9,10 @@
 
 pub mod ai;
 pub mod audio;
+pub mod crowd;
 pub mod example_game;
 pub mod network;
+pub mod perception;
 pub mod plugin;
 pub mod save;
 pub mod window;

@@ -16,10 +16,13 @@
 #![warn(clippy::all)]
 
 pub mod character;
+pub mod cloth;
 pub mod collision;
 pub mod constraints;
+pub mod destruction;
 pub mod ragdoll;
 pub mod rigidbody;
+pub mod vehicle;
 pub mod world;
 
 #[cfg(feature = "2d")]

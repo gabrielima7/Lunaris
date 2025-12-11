@@ -1,15 +1,8 @@
 [package]
 name = "lunaris-audio"
-version.workspace = true
-edition.workspace = true
-rust-version.workspace = true
-authors.workspace = true
-license.workspace = true
-description = "Audio system for the Lunaris Game Engine"
-
-[lints]
-workspace = true
+version = "0.1.0"
+edition = "2021"
+description = "Audio playback and synthesis for Lunaris Engine"
+license = "MIT"
 
 [dependencies]
-lunaris-core.workspace = true
-tracing.workspace = true
