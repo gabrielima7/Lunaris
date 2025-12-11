@@ -1,258 +1,227 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/gabrielima7/Lunaris/main/assets/logo.png" alt="Lunaris Engine" width="400">
+  <img src="docs/assets/logo.svg" alt="Lunaris Engine" width="400">
 </p>
 
 <h1 align="center">🌙 Lunaris Engine</h1>
 
 <p align="center">
-  <strong>A Next-Generation Game Engine in Rust</strong>
+  <strong>The Rust Game Engine That Changes Everything</strong>
 </p>
 
 <p align="center">
-  <a href="https://github.com/gabrielima7/Lunaris/actions/workflows/ci.yml">
-    <img src="https://github.com/gabrielima7/Lunaris/actions/workflows/ci.yml/badge.svg" alt="CI">
-  </a>
-  <a href="https://github.com/gabrielima7/Lunaris/actions/workflows/security.yml">
-    <img src="https://github.com/gabrielima7/Lunaris/actions/workflows/security.yml/badge.svg" alt="Security">
-  </a>
-  <img src="https://img.shields.io/badge/rust-1.75+-orange.svg" alt="Rust">
-  <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
-  <img src="https://img.shields.io/badge/platforms-18+-green.svg" alt="Platforms">
-</p>
-
-<p align="center">
-  <a href="#-features">Features</a> •
   <a href="#-quick-start">Quick Start</a> •
-  <a href="#-scripting">Scripting</a> •
-  <a href="#-platforms">Platforms</a> •
-  <a href="#-documentation">Docs</a>
+  <a href="#-features">Features</a> •
+  <a href="#-why-lunaris">Why Lunaris</a> •
+  <a href="#-docs">Docs</a> •
+  <a href="#-community">Community</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Lines%20of%20Code-51K+-blue?style=for-the-badge" alt="Lines of Code">
+  <img src="https://img.shields.io/badge/Royalties-0%25-green?style=for-the-badge" alt="Royalties">
+  <img src="https://img.shields.io/badge/Made%20with-Rust-orange?style=for-the-badge" alt="Made with Rust">
 </p>
 
 ---
 
-## ✨ Why Lunaris?
-
-| Feature | Lunaris | Unreal | Unity |
-|---------|:-------:|:------:|:-----:|
-| **Memory Safe** | ✅ Native | ❌ | ⚠️ GC |
-| **Royalty Free** | ✅ MIT | ❌ 5% | ❌ $$$ |
-| **WebGPU** | ✅ | ❌ | ⚠️ |
-| **Open Source** | ✅ 100% | ⚠️ | ❌ |
-| **AAA Features** | ✅ 100% | ✅ | ⚠️ 81% |
-
----
-
-## 🚀 Features
-
-### 🎨 Rendering
-- **Lumen-like GI** - Real-time global illumination with SDF and radiance cache
-- **Nanite-like Mesh** - Virtualized geometry with GPU-driven culling
-- **Hardware Ray Tracing** - DXR, Vulkan RT, Metal RT, PlayStation RT
-- **MetaHuman Quality** - 700+ blend shapes, grooms, LiveLink support
-- **VFX Graph** - Node-based visual effects editor
-- Post-processing • PBR Materials • SSR/SSAO • Volumetrics • Water
-
-### ⚡ Physics
-- **Chaos-like System** - Geometry collections, fields, destruction
-- Vehicles • Cloth • Soft Body • Ragdoll
-- Character Controllers (2D/3D)
-
-### 🎭 Animation
-- Motion Matching • Full Body IK (FABRIK, CCD, TwoBone)
-- 52 FACS Facial Animation • Lip Sync • Root Motion
-- State Machines • Blending
-
-### 🧠 AI & Navigation
-- NavMesh • A* Pathfinding
-- Behavior Trees • Crowd Simulation
-- AI Perception (Sight, Hearing)
-
-### 🎵 Audio
-- **MetaSounds-like** - Node-based procedural audio
-- Spatial 3D • HRTF • Reverb Zones • Doppler
-
-### 🌐 Multiplayer
-- Replication • RPCs • Prediction/Reconciliation
-- Client-Server & P2P
-
-### 🥽 VR/AR
-- Meta Quest 3 • Apple Vision Pro • PSVR2
-- Hand Tracking • Eye Tracking • OpenXR
-
----
-
-## 🔧 Quick Start
-
-### Prerequisites
-- [Rust 1.75+](https://rustup.rs)
-- GPU with Vulkan, Metal, or DX12
-
-### Installation
+## ⚡ Quick Start
 
 ```bash
-# Clone
-git clone https://github.com/gabrielima7/Lunaris.git
-cd Lunaris
+# Install
+cargo install lunaris-cli
 
-# Build
-cargo build --workspace
+# Create project
+lunaris new my_game
+cd my_game
 
-# Run example
-cargo run -p lunaris-runtime --example game
+# Run editor
+lunaris editor
 ```
+
+**That's it!** You're ready to build your game.
 
 ---
 
-## 💻 Scripting
+## 🎮 What Can You Build?
 
-Lunaris supports **100% Rust** and **100% Lua** for game development!
+<table>
+<tr>
+<td width="33%">
 
-### Rust (Native Performance)
+### 🏃 Platformers
+Tight controls, pixel-perfect physics, beautiful 2D.
 
+</td>
+<td width="33%">
+
+### 🗡️ Action RPGs
+Combat system, inventory, quests, dialogue.
+
+</td>
+<td width="33%">
+
+### 🌍 Open Worlds
+Procedural terrain, day/night, weather.
+
+</td>
+</tr>
+<tr>
+<td width="33%">
+
+### 🔫 Shooters
+FPS, TPS, multiplayer with prediction.
+
+</td>
+<td width="33%">
+
+### 🎲 Strategy
+RTS, turn-based, AI behaviors.
+
+</td>
+<td width="33%">
+
+### 🎭 VR/AR
+Quest, Vision Pro, all headsets.
+
+</td>
+</tr>
+</table>
+
+---
+
+## ✨ Features
+
+### 🖼️ Graphics
+- **Lumen GI** - Real-time global illumination
+- **Nanite** - Millions of polygons, no LODs
+- **Ray Tracing** - Beautiful reflections & shadows
+- **MetaHuman** - Photorealistic characters
+
+### 🎯 Gameplay
+- **Visual Scripting** - No code required
+- **Lua Scripting** - For rapid prototyping
+- **Rust** - When you need performance
+- **AI Copilot** - Generate code with AI
+
+### 🎨 Editor
+- **Modern UI** - Clean, fast, customizable
+- **Live Reload** - See changes instantly
+- **One-Click Build** - PC, Console, Mobile, VR
+
+### 🌐 Multiplayer
+- **Built-in** - Replication, RPCs, prediction
+- **Any Scale** - 2 players to MMO
+
+---
+
+## 💡 Why Lunaris?
+
+| | Unity | Unreal | Lunaris |
+|---|:---:|:---:|:---:|
+| **Price** | $2K+/year | 5% royalty | **Free forever** |
+| **Performance** | Good | Great | **Best** (Rust) |
+| **Safety** | Runtime errors | C++ crashes | **Compile-time safe** |
+| **Open Source** | ❌ | Partial | **✅ Full** |
+| **2D Support** | Plugin | Poor | **Native** |
+| **Learning Curve** | Medium | Hard | **Easy** |
+
+---
+
+## 📝 Code Example
+
+**Rust (for performance):**
 ```rust
-use lunaris_runtime::Application;
+#[derive(Component)]
+struct Player { speed: f32 }
 
-struct MyGame;
-
-impl Application for MyGame {
-    fn update(&mut self, dt: f32) {
-        // Your game logic here
+fn movement(input: Res<Input>, mut q: Query<(&Player, &mut Transform)>) {
+    for (player, mut tf) in q.iter_mut() {
+        tf.position += input.movement() * player.speed;
     }
-}
-
-fn main() {
-    lunaris_runtime::run_game!(MyGame);
 }
 ```
 
-### Lua (Rapid Prototyping)
-
+**Lua (for prototyping):**
 ```lua
--- game.lua
-function on_update(dt)
-    local pos = lunaris.entity.get_position(player)
-    pos.x = pos.x + speed * dt
-    lunaris.entity.set_position(player, pos)
-    
-    if lunaris.input.is_key_pressed("space") then
-        lunaris.audio.play("jump.wav")
-    end
+function on_update(entity, dt)
+    local speed = 5.0
+    entity.position = entity.position + input.movement * speed * dt
 end
 ```
 
-### Lua API Coverage
+---
 
-| Module | Functions |
-|--------|-----------|
-| `lunaris.input` | `is_key_down`, `is_key_pressed`, `get_mouse_position`, `get_axis` |
-| `lunaris.entity` | `create`, `get_position`, `set_position`, `move`, `get_rotation`, `set_rotation` |
-| `lunaris.audio` | `play`, `stop`, `set_volume` |
-| `lunaris.physics` | `raycast`, `check_collision` |
-| `lunaris.scene` | `load`, `get_current` |
+## 📚 Learn
 
-### Blueprints (Visual Scripting)
-
-Node-based visual programming with full type support - no coding required!
+| Resource | Description |
+|----------|-------------|
+| [📖 Getting Started](docs/getting_started.md) | Your first project |
+| [🎮 Examples](examples/) | Working games to learn from |
+| [🔄 Unity Migration](docs/tutorials/unity_migration.md) | Coming from Unity? |
+| [📺 YouTube](https://youtube.com/@lunaris) | Video tutorials |
 
 ---
 
-## 📱 Platforms
+## 🌟 Showcase
 
-| Platform | Status | Notes |
-|----------|:------:|-------|
-| 🪟 Windows | ✅ | DX12/Vulkan |
-| 🐧 Linux | ✅ | Vulkan |
-| 🍎 macOS | ✅ | Metal |
-| 📱 iOS | ✅ | Metal |
-| 🤖 Android | ✅ | Vulkan |
-| 🎮 PlayStation 5 | ✅ | GNM + Tempest |
-| 🎮 Xbox Series X/S | ✅ | DX12 |
-| 🎮 Nintendo Switch | ✅ | NVN |
-| 🌐 WebGPU/WASM | ✅ | Browser |
-| 🥽 Meta Quest | ✅ | Hand/Eye Tracking |
-| 🥽 Apple Vision Pro | ✅ | Passthrough |
-| 🥽 PSVR2 | ✅ | Haptics |
-| 🥽 SteamVR | ✅ | OpenXR |
-| ☁️ Cloud Gaming | ✅ | GeForce NOW, xCloud |
-| 🎮 Steam Deck | ✅ | Optimized |
+### Vertical Slice Demo
+*A complete game showcasing all engine features*
+
+### AAA Rendering Demo  
+*50+ million triangles with Lumen and Nanite*
+
+### Action RPG Demo
+*Combat, inventory, quests, dialogue*
 
 ---
 
-## 📦 Architecture
+## 🤝 Community
 
-```
-Lunaris/
-├── 🧱 lunaris-core        # Core utilities, math, input, platform
-├── 🎯 lunaris-ecs         # Entity Component System
-├── 🎨 lunaris-renderer    # GPU rendering (wgpu)
-│   ├── Lumen GI           # Global illumination
-│   ├── Nanite Mesh        # Virtualized geometry
-│   ├── MetaHuman          # Digital humans
-│   └── VFX Graph          # Particle effects
-├── ⚡ lunaris-physics     # Physics (Chaos-like)
-├── 🎵 lunaris-audio       # Audio (MetaSounds-like)
-├── 📜 lunaris-scripting   # Lua + Blueprints
-├── 📦 lunaris-assets      # Asset streaming
-├── 🛠️ lunaris-editor      # Visual editor
-└── 🎮 lunaris-runtime     # Game runtime
-```
+<p align="center">
+  <a href="https://discord.gg/lunaris"><img src="https://img.shields.io/badge/Discord-Join%20Us-5865F2?style=for-the-badge&logo=discord" alt="Discord"></a>
+  <a href="https://twitter.com/lunarisengine"><img src="https://img.shields.io/badge/Twitter-Follow-1DA1F2?style=for-the-badge&logo=twitter" alt="Twitter"></a>
+  <a href="https://github.com/lunaris/engine"><img src="https://img.shields.io/badge/GitHub-Star-181717?style=for-the-badge&logo=github" alt="GitHub"></a>
+</p>
 
 ---
 
 ## 📊 Stats
 
-| Metric | Value |
-|--------|-------|
-| Lines of Code | **33,473** |
-| Source Files | **103** |
-| Modules | **50+** |
-| Crates | **9** |
+<p align="center">
+  <img src="https://img.shields.io/badge/Rust%20Files-132-informational?style=flat-square" alt="Rust Files">
+  <img src="https://img.shields.io/badge/Lines-51K+-informational?style=flat-square" alt="Lines">
+  <img src="https://img.shields.io/badge/Editor%20Modules-20-informational?style=flat-square" alt="Modules">
+  <img src="https://img.shields.io/badge/Platforms-10+-informational?style=flat-square" alt="Platforms">
+</p>
 
 ---
 
-## 🔐 Security
+## 🛠️ Built With
 
-- **Memory Safety** - Guaranteed by Rust's borrow checker
-- **No Unsafe Code** - `#![deny(unsafe_code)]` in core
-- **Sandboxed Lua** - Resource limits and capability-based permissions
-- **Dependency Auditing** - Automated CVE scanning
-
----
-
-## 🛠️ Development
-
-```bash
-# Format code
-cargo fmt --all
-
-# Lint
-cargo clippy --workspace -- -D warnings
-
-# Test
-cargo test --workspace
-
-# Benchmark
-cargo bench --workspace
-```
+- **Rust** - Safe, fast, concurrent
+- **wgpu** - Modern graphics API
+- **glam** - Fast math library
+- **mlua** - Lua scripting
+- **serde** - Serialization
 
 ---
 
 ## 📄 License
 
-MIT License - **100% Free, No Royalties**
+MIT License - **Use it for anything, forever.**
 
----
-
-## 🤝 Contributing
-
-Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+No royalties. No subscriptions. No restrictions.
 
 ---
 
 <p align="center">
-  <strong>⭐ Star us on GitHub!</strong>
+  <strong>Ready to build your dream game?</strong>
 </p>
 
 <p align="center">
-  Made with ❤️ in Rust
+  <code>cargo install lunaris-cli && lunaris new my_game</code>
+</p>
+
+<p align="center">
+  Made with 🌙 by game developers, for game developers.
 </p>
