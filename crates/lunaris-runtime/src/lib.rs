@@ -8,10 +8,12 @@
 #![warn(clippy::all)]
 
 pub mod example_game;
+pub mod network;
 pub mod plugin;
 pub mod window;
 
 pub use example_game::ExampleGame;
+pub use network::{NetworkClient, NetworkServer, NetworkConfig};
 pub use plugin::{Plugin, PluginApp, PluginId, PluginManager};
 pub use window::{AppRunner, Application, Window, WindowConfig, WindowState};
 
