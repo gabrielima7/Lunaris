@@ -11,6 +11,7 @@ pub mod gizmo;
 pub mod panels;
 pub mod timeline;
 pub mod ui;
+pub mod world_builder;
 
 pub use gizmo::{Gizmo, GizmoAxis, GizmoType};
 pub use ui::{DrawCommand, UiContext, UiInput, UiStyle};

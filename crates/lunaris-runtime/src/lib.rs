@@ -9,10 +9,12 @@
 
 pub mod ai;
 pub mod audio;
+pub mod cognitive_npc;
 pub mod console;
 pub mod crowd;
 pub mod example_game;
 pub mod hot_reload;
+pub mod marketplace;
 pub mod network;
 pub mod perception;
 pub mod plugin;

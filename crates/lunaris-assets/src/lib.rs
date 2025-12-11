@@ -13,6 +13,7 @@
 #![warn(missing_docs)]
 #![warn(clippy::all)]
 
+pub mod asset_pipeline;
 pub mod handle;
 pub mod loader;
 pub mod manager;
