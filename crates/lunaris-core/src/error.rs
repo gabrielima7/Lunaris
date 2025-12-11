@@ -25,6 +25,14 @@ pub enum Error {
     #[error("Renderer error: {0}")]
     Renderer(String),
 
+    /// Window error
+    #[error("Window error: {0}")]
+    Window(String),
+
+    /// Plugin error
+    #[error("Plugin error: {0}")]
+    Plugin(String),
+
     /// Configuration error
     #[error("Config error: {0}")]
     Config(String),
