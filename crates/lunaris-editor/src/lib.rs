@@ -7,10 +7,13 @@
 #![warn(missing_docs)]
 #![warn(clippy::all)]
 
+pub mod design_system;
 pub mod dock;
 pub mod gizmo;
 pub mod panels;
+pub mod professional_ui;
 pub mod properties;
+pub mod shortcuts;
 pub mod terrain_erosion;
 pub mod timeline;
 pub mod ui;
