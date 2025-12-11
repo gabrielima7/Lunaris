@@ -10,11 +10,13 @@
 pub mod curve_editor;
 pub mod design_system;
 pub mod dock;
+pub mod editor_integration;
 pub mod gizmo;
 pub mod panels;
 pub mod professional_ui;
 pub mod properties;
 pub mod shortcuts;
+pub mod stress_test;
 pub mod terrain_erosion;
 pub mod timeline;
 pub mod ui;
