@@ -1,15 +1,28 @@
 //! # Lunaris ECS
 //!
-//! Entity Component System wrapper and extensions for the Lunaris Game Engine.
+//! Entity Component System for the Lunaris Game Engine.
 //!
-//! Built on top of bevy_ecs for maximum performance and ergonomics.
+//! Built on bevy_ecs with additional game-specific components.
+//!
+//! ## Core Components
+//!
+//! - Transform2D / Transform3D - Spatial transforms
+//! - Name - Entity naming
+//! - Parent/Children - Scene hierarchy
+//! - Visibility - Rendering visibility
 
 #![warn(missing_docs)]
 #![warn(clippy::all)]
 
-pub use bevy_ecs::prelude::*;
+pub mod components;
+pub mod hierarchy;
+pub mod systems;
 
-/// Re-export bevy_ecs for direct access when needed
+pub use bevy_ecs::prelude::*;
+pub use components::*;
+pub use hierarchy::*;
+
+/// Re-export bevy_ecs for direct access
 pub mod ecs {
     pub use bevy_ecs::*;
 }

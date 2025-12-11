@@ -14,3 +14,12 @@ workspace = true
 lunaris-core.workspace = true
 glam.workspace = true
 tracing.workspace = true
+
+# Physics dependencies
+rapier2d = { version = "0.17", optional = true }
+rapier3d = { version = "0.17", optional = true }
+
+[features]
+default = ["2d"]
+2d = ["rapier2d"]
+3d = ["rapier3d"]

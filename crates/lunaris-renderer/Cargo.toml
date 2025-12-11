@@ -15,3 +15,4 @@ lunaris-core.workspace = true
 wgpu.workspace = true
 glam.workspace = true
 tracing.workspace = true
+bytemuck.workspace = true
