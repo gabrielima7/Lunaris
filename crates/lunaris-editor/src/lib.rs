@@ -7,6 +7,7 @@
 #![warn(missing_docs)]
 #![warn(clippy::all)]
 
+pub mod curve_editor;
 pub mod design_system;
 pub mod dock;
 pub mod gizmo;
@@ -18,6 +19,8 @@ pub mod terrain_erosion;
 pub mod timeline;
 pub mod ui;
 pub mod ui_retained;
+pub mod viewport;
+pub mod visual_graph;
 pub mod widgets;
 pub mod window_manager;
 pub mod world_builder;
