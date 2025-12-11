@@ -11,9 +11,12 @@ pub mod dock;
 pub mod gizmo;
 pub mod panels;
 pub mod properties;
+pub mod terrain_erosion;
 pub mod timeline;
 pub mod ui;
+pub mod ui_retained;
 pub mod widgets;
+pub mod window_manager;
 pub mod world_builder;
 
 pub use gizmo::{Gizmo, GizmoAxis, GizmoType};
