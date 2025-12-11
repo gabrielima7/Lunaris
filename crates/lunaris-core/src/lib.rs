@@ -18,6 +18,7 @@ pub mod input;
 pub mod input_action;
 pub mod logger;
 pub mod math;
+pub mod platform;
 pub mod profiler;
 pub mod time;
 

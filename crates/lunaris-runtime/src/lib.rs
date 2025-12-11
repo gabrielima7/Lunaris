@@ -9,12 +9,15 @@
 
 pub mod ai;
 pub mod audio;
+pub mod console;
 pub mod crowd;
 pub mod example_game;
+pub mod hot_reload;
 pub mod network;
 pub mod perception;
 pub mod plugin;
 pub mod save;
+pub mod vr;
 pub mod window;
 
 pub use ai::{BehaviorContext, NavAgent, NavMesh, NavPath};

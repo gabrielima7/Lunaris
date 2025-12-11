@@ -16,10 +16,12 @@
 pub mod handle;
 pub mod loader;
 pub mod manager;
+pub mod streaming;
 
 pub use handle::{AssetHandle, AssetId, AssetState};
 pub use loader::AssetLoader;
 pub use manager::AssetManager;
+pub use streaming::*;
 
 use lunaris_core::Result;
 

@@ -15,6 +15,7 @@
 #![warn(missing_docs)]
 #![warn(clippy::all)]
 
+pub mod chaos;
 pub mod character;
 pub mod cloth;
 pub mod collision;
