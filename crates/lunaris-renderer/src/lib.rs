@@ -17,6 +17,7 @@
 
 pub mod animation;
 pub mod camera;
+pub mod debug_draw;
 pub mod gpu;
 pub mod lod;
 pub mod material;
@@ -30,6 +31,7 @@ pub mod texture;
 
 pub use animation::{AnimationClip, AnimationStateMachine, Skeleton, SkeletalAnimator};
 pub use camera::{Camera2D, Camera3D, CameraUniform};
+pub use debug_draw::{DebugDraw, DebugDraw2D, DebugShape};
 pub use gpu::{GraphicsConfig, GraphicsContext, GpuInfo, Vertex2D, Vertex3D};
 pub use lod::{CullingSystem, Frustum, LodGroup};
 pub use material::{BlendMode, Material, MaterialId, ShaderId, ShaderSource};

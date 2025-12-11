@@ -8,6 +8,7 @@
 #![warn(clippy::all)]
 
 pub mod ai;
+pub mod audio;
 pub mod example_game;
 pub mod network;
 pub mod plugin;
@@ -15,6 +16,7 @@ pub mod save;
 pub mod window;
 
 pub use ai::{BehaviorContext, NavAgent, NavMesh, NavPath};
+pub use audio::{AudioListener, AudioSource, AudioSystem};
 pub use example_game::ExampleGame;
 pub use network::{NetworkClient, NetworkServer, NetworkConfig};
 pub use plugin::{Plugin, PluginApp, PluginId, PluginManager};
