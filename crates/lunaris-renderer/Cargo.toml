@@ -1,0 +1,17 @@
+[package]
+name = "lunaris-renderer"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "GPU renderer for the Lunaris Game Engine"
+
+[lints]
+workspace = true
+
+[dependencies]
+lunaris-core.workspace = true
+wgpu.workspace = true
+glam.workspace = true
+tracing.workspace = true

@@ -1,0 +1,24 @@
+# Lunaris Engine - Clippy Configuration
+# Applied via workspace lints in Cargo.toml, this file provides additional context
+
+# This configuration is managed through [workspace.lints.clippy] in Cargo.toml
+# See: https://doc.rust-lang.org/clippy/configuration.html
+
+# Additional clippy.toml settings
+msrv = "1.75"
+cognitive-complexity-threshold = 25
+too-many-arguments-threshold = 10
+type-complexity-threshold = 300
+
+# Allowed names that clippy would otherwise warn about
+allowed-idents-below-min-chars = ["x", "y", "z", "w", "i", "j", "k", "id", "dt"]
+
+# Disallowed types for enforcing patterns
+# disallowed-types = [
+#     { path = "std::collections::HashMap", reason = "Use hashbrown::HashMap for better performance" },
+# ]
+
+# Disallowed methods
+# disallowed-methods = [
+#     { path = "std::env::var", reason = "Use config module for environment access" },
+# ]

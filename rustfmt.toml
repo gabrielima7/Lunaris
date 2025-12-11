@@ -1,0 +1,48 @@
+# Lunaris Engine - Rustfmt Configuration
+# https://rust-lang.github.io/rustfmt/
+
+edition = "2021"
+max_width = 100
+hard_tabs = false
+tab_spaces = 4
+newline_style = "Auto"
+use_small_heuristics = "Default"
+
+# Imports
+imports_granularity = "Module"
+group_imports = "StdExternalCrate"
+reorder_imports = true
+reorder_modules = true
+
+# Formatting
+format_code_in_doc_comments = true
+format_macro_matchers = true
+format_strings = false
+wrap_comments = true
+comment_width = 100
+
+# Structs and enums
+struct_lit_single_line = true
+enum_discrim_align_threshold = 20
+
+# Functions
+fn_params_layout = "Tall"
+fn_single_line = false
+
+# Chains
+chain_width = 60
+
+# Control flow
+single_line_if_else_max_width = 50
+single_line_let_else_max_width = 50
+
+# Match
+match_block_trailing_comma = true
+match_arm_blocks = true
+match_arm_leading_pipes = "Never"
+
+# Misc
+force_multiline_blocks = false
+overflow_delimited_expr = false
+blank_lines_upper_bound = 2
+blank_lines_lower_bound = 0

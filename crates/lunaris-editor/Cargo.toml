@@ -1,0 +1,20 @@
+[package]
+name = "lunaris-editor"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Editor interface for the Lunaris Game Engine"
+
+[lints]
+workspace = true
+
+[dependencies]
+lunaris-core.workspace = true
+lunaris-ecs.workspace = true
+lunaris-renderer.workspace = true
+lunaris-scripting.workspace = true
+lunaris-assets.workspace = true
+winit.workspace = true
+tracing.workspace = true

@@ -1,0 +1,96 @@
+# Lunaris Engine - Dependency Policy
+# https://embarkstudios.github.io/cargo-deny/
+
+[graph]
+targets = [
+    "x86_64-unknown-linux-gnu",
+    "x86_64-pc-windows-msvc",
+    "x86_64-apple-darwin",
+    "aarch64-apple-darwin",
+    "aarch64-unknown-linux-gnu",
+]
+all-features = true
+
+# ============================================================================
+# ADVISORIES - Check for known vulnerabilities
+# ============================================================================
+[advisories]
+db-path = "~/.cargo/advisory-db"
+vulnerability = "deny"
+unmaintained = "warn"
+yanked = "deny"
+notice = "warn"
+ignore = [
+    # Add specific advisory IDs to ignore here with justification
+    # "RUSTSEC-2020-0000",
+]
+
+# ============================================================================
+# LICENSES - Enforce allowed licenses
+# ============================================================================
+[licenses]
+unlicensed = "deny"
+copyleft = "deny"
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "0BSD",
+    "Unicode-DFS-2016",
+    "CC0-1.0",
+    "MPL-2.0",  # Weak copyleft, acceptable for dependencies
+]
+confidence-threshold = 0.93
+exceptions = [
+    # Add specific crate license exceptions here with justification
+    # { name = "some-crate", allow = ["LGPL-3.0"] },
+]
+
+[licenses.private]
+ignore = false
+registries = []
+
+# ============================================================================
+# BANS - Prevent unwanted dependencies
+# ============================================================================
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+highlight = "all"
+workspace-default-features = "allow"
+external-default-features = "allow"
+
+# Deny specific crates entirely
+deny = [
+    # Crates with known security issues or that we don't want
+    # { name = "openssl", wrappers = ["openssl-sys"] },
+]
+
+# Skip checking duplicate versions for specific crates
+skip = [
+    # Common crates with version fragmentation
+    # { name = "syn", version = "1" },
+]
+
+skip-tree = [
+    # Skip entire dependency trees
+]
+
+# ============================================================================
+# SOURCES - Control where dependencies come from
+# ============================================================================
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []
+
+[sources.allow-org]
+# Allow git dependencies from specific GitHub orgs
+github = [
+    "gabrielima7",
+]

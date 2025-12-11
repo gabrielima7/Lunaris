@@ -1,0 +1,15 @@
+[package]
+name = "lunaris-ecs"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Entity Component System for the Lunaris Game Engine"
+
+[lints]
+workspace = true
+
+[dependencies]
+lunaris-core.workspace = true
+bevy_ecs.workspace = true

@@ -1,0 +1,29 @@
+[package]
+name = "lunaris-scripting"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Sandboxed Lua scripting for the Lunaris Game Engine"
+
+[lints]
+workspace = true
+
+[dependencies]
+lunaris-core.workspace = true
+mlua.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+criterion.workspace = true
+
+[[bench]]
+name = "scripting_benchmarks"
+harness = false
+
+[features]
+default = []
+# Enable for development/trusted scripts - relaxes some sandbox restrictions
+trusted = []

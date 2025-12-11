@@ -1,0 +1,40 @@
+# Generated files
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.pdb
+*.dSYM/
+
+# Coverage
+*.profraw
+*.profdata
+lcov.info
+coverage/
+
+# Benchmark results (keep in CI artifacts)
+target/criterion/
+
+# Local development
+.env
+.env.local
+*.local.toml
+
+# Editor config that shouldn't be shared
+.editorconfig
+
+# Logs
+*.log
+logs/

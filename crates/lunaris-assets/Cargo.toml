@@ -1,0 +1,18 @@
+[package]
+name = "lunaris-assets"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Asset loading and management for the Lunaris Game Engine"
+
+[lints]
+workspace = true
+
+[dependencies]
+lunaris-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+tokio.workspace = true

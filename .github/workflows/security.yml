@@ -1,0 +1,103 @@
+# Lunaris Engine - Security Scanning
+name: Security
+
+on:
+  schedule:
+    # Run daily at 3 AM UTC
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - '**/Cargo.toml'
+      - 'deny.toml'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  # ============================================================================
+  # Dependency Audit
+  # ============================================================================
+  audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install security tools
+        run: |
+          cargo install cargo-audit --locked
+          cargo install cargo-deny --locked
+          cargo install cargo-geiger --locked
+
+      - name: Run cargo-audit
+        run: cargo audit --deny warnings
+
+      - name: Run cargo-deny
+        run: cargo deny check
+
+      - name: Generate unsafe code report
+        run: |
+          cargo geiger --all-features --all-targets 2>/dev/null | tee geiger-report.txt || true
+
+      - name: Upload geiger report
+        uses: actions/upload-artifact@v4
+        with:
+          name: geiger-report
+          path: geiger-report.txt
+          retention-days: 30
+
+  # ============================================================================
+  # SBOM Generation
+  # ============================================================================
+  sbom:
+    name: Generate SBOM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install cargo-sbom
+        run: cargo install cargo-sbom --locked
+
+      - name: Generate SBOM (CycloneDX)
+        run: cargo sbom --output-format cyclonedx_json > sbom.json
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.json
+          retention-days: 90
+
+  # ============================================================================
+  # Dependency Freshness
+  # ============================================================================
+  outdated:
+    name: Check Outdated Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install cargo-outdated
+        run: cargo install cargo-outdated --locked
+
+      - name: Check for outdated dependencies
+        run: cargo outdated --workspace --exit-code 0 | tee outdated-report.txt
+
+      - name: Upload outdated report
+        uses: actions/upload-artifact@v4
+        with:
+          name: outdated-report
+          path: outdated-report.txt
+          retention-days: 7
