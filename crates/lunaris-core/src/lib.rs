@@ -13,6 +13,7 @@
 #![warn(clippy::all)]
 #![deny(unsafe_code)]
 
+pub mod api_stable;
 pub mod error;
 pub mod input;
 pub mod input_action;
