@@ -17,6 +17,7 @@ pub mod asset_pipeline;
 pub mod handle;
 pub mod loader;
 pub mod manager;
+pub mod starter_pack;
 pub mod streaming;
 
 pub use handle::{AssetHandle, AssetId, AssetState};

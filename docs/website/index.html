@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunaris Engine - Next-Gen Game Development</title>
+    <meta name="description" content="Free, open-source game engine with AAA features. Written in Rust for memory safety and performance.">
+    
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --text: #e5e5e5;
+            --text-muted: #888;
+            --gradient: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            font-size: 5rem;
+            font-weight: 900;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid #333;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            color: var(--text-muted);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 0;
+            background: var(--bg-card);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+        }
+
+        /* Code Example */
+        .code-section {
+            padding: 100px 0;
+        }
+
+        .code-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .code-block {
+            background: #1a1a24;
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .code-title {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        .keyword { color: #c792ea; }
+        .function { color: #82aaff; }
+        .string { color: #c3e88d; }
+        .comment { color: #545454; }
+        .type { color: #ffcb6b; }
+
+        /* Footer */
+        footer {
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid #222;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo { font-size: 3rem; }
+            .tagline { font-size: 1rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .code-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="logo">🌙 Lunaris</h1>
+            <p class="tagline">The Next-Generation Open-Source Game Engine</p>
+            <div class="cta-buttons">
+                <a href="https://github.com/gabrielima7/Lunaris" class="btn btn-primary">⭐ Star on GitHub</a>
+                <a href="docs/index.html" class="btn btn-secondary">📚 Documentation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">AAA Features, Zero Royalties</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">☀️</div>
+                    <h3 class="feature-title">Lumen-like GI</h3>
+                    <p class="feature-desc">Real-time global illumination with SDF tracing and radiance caching.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔺</div>
+                    <h3 class="feature-title">Nanite-like Geometry</h3>
+                    <p class="feature-desc">Virtualized geometry with GPU-driven culling. Billions of triangles.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Memory Safe</h3>
+                    <p class="feature-desc">Written in Rust. No crashes, no memory leaks, no undefined behavior.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3 class="feature-title">18+ Platforms</h3>
+                    <p class="feature-desc">PC, consoles, mobile, VR, web, and cloud gaming support.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3 class="feature-title">Visual Scripting</h3>
+                    <p class="feature-desc">Blueprints-like visual programming with full type safety.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">AI Copilot</h3>
+                    <p class="feature-desc">LLM-powered assistant for code, blueprints, and voice commands.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-number">42K+</div>
+                    <div class="stat-label">Lines of Code</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">120+</div>
+                    <div class="stat-label">Rust Files</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">60+</div>
+                    <div class="stat-label">Systems</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">0%</div>
+                    <div class="stat-label">Royalties</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="code-section">
+        <div class="container">
+            <h2 class="section-title">Simple, Powerful API</h2>
+            <div class="code-container">
+                <div class="code-block">
+                    <div class="code-title">Rust</div>
+                    <pre><code><span class="keyword">use</span> <span class="type">lunaris_runtime</span>::<span class="type">Application</span>;
+
+<span class="keyword">struct</span> <span class="type">MyGame</span> {
+    score: <span class="type">u32</span>,
+}
+
+<span class="keyword">impl</span> <span class="type">Application</span> <span class="keyword">for</span> <span class="type">MyGame</span> {
+    <span class="keyword">fn</span> <span class="function">update</span>(&<span class="keyword">mut</span> <span class="keyword">self</span>, dt: <span class="type">f32</span>) {
+        <span class="comment">// Game logic here</span>
+    }
+
+    <span class="keyword">fn</span> <span class="function">render</span>(&<span class="keyword">mut</span> <span class="keyword">self</span>) {
+        <span class="comment">// Rendering here</span>
+    }
+}</code></pre>
+                </div>
+                <div class="code-block">
+                    <div class="code-title">Lua</div>
+                    <pre><code><span class="keyword">function</span> <span class="function">on_update</span>(dt)
+    <span class="keyword">local</span> pos = lunaris.entity.<span class="function">get_position</span>(self)
+    
+    <span class="keyword">if</span> lunaris.input.<span class="function">is_key_down</span>(<span class="string">"W"</span>) <span class="keyword">then</span>
+        pos.y = pos.y + speed * dt
+    <span class="keyword">end</span>
+    
+    lunaris.entity.<span class="function">set_position</span>(self, pos)
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> <span class="function">on_collision</span>(other)
+    lunaris.audio.<span class="function">play</span>(<span class="string">"coin.wav"</span>)
+<span class="keyword">end</span></code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="https://github.com/gabrielima7/Lunaris">GitHub</a>
+                <a href="#">Discord</a>
+                <a href="#">Twitter</a>
+                <a href="#">YouTube</a>
+            </div>
+            <p class="copyright">MIT License • Made with 🌙 by the Lunaris Team</p>
+        </div>
+    </footer>
+</body>
+</html>
