@@ -17,6 +17,7 @@
 
 pub mod character;
 pub mod collision;
+pub mod ragdoll;
 pub mod rigidbody;
 pub mod world;
 
@@ -28,6 +29,7 @@ pub mod physics3d;
 
 pub use character::{CharacterController2D, CharacterController3D};
 pub use collision::{ColliderShape, CollisionEvent, CollisionLayers};
+pub use ragdoll::{Joint, JointConfig, JointType, RagdollConfig, RagdollController};
 pub use rigidbody::{RigidbodyHandle, RigidbodyType};
 pub use world::PhysicsWorld;
 
