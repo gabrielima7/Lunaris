@@ -16,11 +16,13 @@
 
 pub mod components;
 pub mod hierarchy;
+pub mod scene;
 pub mod systems;
 
 pub use bevy_ecs::prelude::*;
 pub use components::*;
 pub use hierarchy::*;
+pub use scene::{ComponentData, EntityData, Prefab, Scene, SceneId, SceneManager};
 
 /// Re-export bevy_ecs for direct access
 pub mod ecs {

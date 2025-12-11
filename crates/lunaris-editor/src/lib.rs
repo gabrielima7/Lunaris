@@ -7,9 +7,11 @@
 #![warn(missing_docs)]
 #![warn(clippy::all)]
 
+pub mod gizmo;
 pub mod panels;
 pub mod ui;
 
+pub use gizmo::{Gizmo, GizmoAxis, GizmoType};
 pub use ui::{DrawCommand, UiContext, UiInput, UiStyle};
 
 use lunaris_core::{input::Input, Result};

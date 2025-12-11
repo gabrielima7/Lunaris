@@ -7,9 +7,11 @@
 #![warn(missing_docs)]
 #![warn(clippy::all)]
 
+pub mod example_game;
 pub mod plugin;
 pub mod window;
 
+pub use example_game::ExampleGame;
 pub use plugin::{Plugin, PluginApp, PluginId, PluginManager};
 pub use window::{AppRunner, Application, Window, WindowConfig, WindowState};
 
