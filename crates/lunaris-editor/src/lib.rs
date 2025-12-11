@@ -9,6 +9,7 @@
 
 pub mod gizmo;
 pub mod panels;
+pub mod timeline;
 pub mod ui;
 
 pub use gizmo::{Gizmo, GizmoAxis, GizmoType};
