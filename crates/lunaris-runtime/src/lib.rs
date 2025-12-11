@@ -7,14 +7,18 @@
 #![warn(missing_docs)]
 #![warn(clippy::all)]
 
+pub mod ai;
 pub mod example_game;
 pub mod network;
 pub mod plugin;
+pub mod save;
 pub mod window;
 
+pub use ai::{BehaviorContext, NavAgent, NavMesh, NavPath};
 pub use example_game::ExampleGame;
 pub use network::{NetworkClient, NetworkServer, NetworkConfig};
 pub use plugin::{Plugin, PluginApp, PluginId, PluginManager};
+pub use save::{SaveData, SaveSystem};
 pub use window::{AppRunner, Application, Window, WindowConfig, WindowState};
 
 use lunaris_core::Result;
