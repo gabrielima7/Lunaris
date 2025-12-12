@@ -231,36 +231,37 @@ impl AnimationCurve {
 
     /// Auto-calculate tangents
     pub fn auto_tangents(&mut self) {
-        for i in 0..self.keys.len() {
-            let prev = if i > 0 { Some(&self.keys[i - 1]) } else { None };
-            let next = if i < self.keys.len() - 1 { Some(&self.keys[i + 1]) } else { None };
-
-            let key = &mut self.keys[i];
-            if key.tangent_mode != TangentMode::Auto {
+        let len = self.keys.len();
+        
+        // Collect data needed for calculations
+        let key_data: Vec<(f32, f32, TangentMode)> = self.keys.iter()
+            .map(|k| (k.time, k.value, k.tangent_mode))
+            .collect();
+        
+        for i in 0..len {
+            if key_data[i].2 != TangentMode::Auto {
                 continue;
             }
-
-            match (prev, next) {
-                (Some(p), Some(n)) => {
-                    let slope = (n.value - p.value) / (n.time - p.time);
-                    key.in_tangent = Vec2::new(-0.3, -slope * 0.3);
-                    key.out_tangent = Vec2::new(0.3, slope * 0.3);
-                }
-                (Some(p), None) => {
-                    let slope = (key.value - p.value) / (key.time - p.time);
-                    key.in_tangent = Vec2::new(-0.3, -slope * 0.3);
-                    key.out_tangent = Vec2::new(0.3, slope * 0.3);
-                }
-                (None, Some(n)) => {
-                    let slope = (n.value - key.value) / (n.time - key.time);
-                    key.in_tangent = Vec2::new(-0.3, -slope * 0.3);
-                    key.out_tangent = Vec2::new(0.3, slope * 0.3);
-                }
-                (None, None) => {
-                    key.in_tangent = Vec2::new(-0.3, 0.0);
-                    key.out_tangent = Vec2::new(0.3, 0.0);
-                }
-            }
+            
+            let (in_tangent, out_tangent) = if i == 0 && len > 1 {
+                // First key
+                let slope = (key_data[1].1 - key_data[0].1) / (key_data[1].0 - key_data[0].0);
+                (Vec2::new(-0.3, -slope * 0.3), Vec2::new(0.3, slope * 0.3))
+            } else if i == len - 1 && len > 1 {
+                // Last key
+                let slope = (key_data[i].1 - key_data[i-1].1) / (key_data[i].0 - key_data[i-1].0);
+                (Vec2::new(-0.3, -slope * 0.3), Vec2::new(0.3, slope * 0.3))
+            } else if len > 2 {
+                // Middle key
+                let slope = (key_data[i+1].1 - key_data[i-1].1) / (key_data[i+1].0 - key_data[i-1].0);
+                (Vec2::new(-0.3, -slope * 0.3), Vec2::new(0.3, slope * 0.3))
+            } else {
+                (Vec2::new(-0.3, 0.0), Vec2::new(0.3, 0.0))
+            };
+            
+            let key = &mut self.keys[i];
+            key.in_tangent = in_tangent;
+            key.out_tangent = out_tangent;
         }
     }
 }
@@ -371,16 +372,17 @@ impl CurveEditor {
 
     /// Add key at screen position
     pub fn add_key_at(&mut self, curve_idx: usize, screen_pos: Vec2) {
+        // Calculate time and value before borrowing curve mutably
+        let time = self.screen_to_time(screen_pos.x);
+        let value = self.screen_to_value(screen_pos.y);
+        
+        let time = if self.snap_to_grid {
+            (time / self.grid.time_snap).round() * self.grid.time_snap
+        } else {
+            time
+        };
+        
         if let Some(curve) = self.curves.get_mut(curve_idx) {
-            let time = self.screen_to_time(screen_pos.x);
-            let value = self.screen_to_value(screen_pos.y);
-            
-            let time = if self.snap_to_grid {
-                (time / self.grid.time_snap).round() * self.grid.time_snap
-            } else {
-                time
-            };
-            
             curve.add_key(Keyframe::linear(time, value));
         }
     }

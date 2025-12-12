@@ -1,9 +1,8 @@
 //! Complete example application demonstrating the integrated engine
 
 use lunaris_core::{
-    input::{Input, Key, MouseButton},
+    input::{Input, Key},
     math::{Color, Vec2},
-    time::Time,
 };
 
 /// Example game state

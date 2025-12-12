@@ -35,7 +35,7 @@ pub struct ZoneData {
     pub name: String,
     pub start: Duration,
     pub duration: Duration,
-    pub depth: u32,
+    pub _depth: usize,
     pub color: [f32; 3],
 }
 
@@ -98,11 +98,11 @@ impl Profiler {
     }
 
     pub fn zone(&mut self, name: &str) -> ZoneGuard {
-        ZoneGuard { profiler: self as *mut _, name: name.into(), start: Instant::now(), depth: 0 }
+        ZoneGuard { profiler: self as *mut _, name: name.into(), start: Instant::now(), _depth: 0 }
     }
 
     pub fn record_zone(&mut self, name: &str, duration: Duration) {
-        self.current_frame.zones.push(ZoneData { name: name.into(), start: Duration::ZERO, duration, depth: 0, color: [0.5, 0.5, 1.0] });
+        self.current_frame.zones.push(ZoneData { name: name.into(), start: Duration::ZERO, duration, _depth: 0, color: [0.5, 0.5, 1.0] });
         self.zones.entry(name.into()).or_insert(ZoneStats { total_time: Duration::ZERO, call_count: 0, min_time: Duration::MAX, max_time: Duration::ZERO })
             .add(duration);
     }
@@ -136,7 +136,7 @@ pub struct ZoneGuard {
     profiler: *mut Profiler,
     name: String,
     start: Instant,
-    depth: u32,
+    _depth: u32,
 }
 
 impl Drop for ZoneGuard {

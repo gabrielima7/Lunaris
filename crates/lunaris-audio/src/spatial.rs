@@ -443,7 +443,7 @@ impl SpatialAudioManager {
     }
 
     /// Update all sources
-    pub fn update(&mut self, delta_time: f32) {
+    pub fn update(&mut self, _delta_time: f32) {
         // Virtualization: sort by priority and distance
         let mut sorted_ids: Vec<u64> = self.sources.keys().copied().collect();
         sorted_ids.sort_by(|a, b| {

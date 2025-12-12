@@ -60,7 +60,7 @@ impl EditorContext {
     pub fn new() -> Self {
         let mut ctx = Self {
             dock: DockTree::new(),
-            ui: UiTree::new(Theme::dark()),
+            ui: UiTree::new(),
             theme: Theme::dark(),
             tokens: DesignTokens::dark(),
             shortcuts: ShortcutManager::new(),
@@ -382,7 +382,7 @@ impl EditorContext {
             self.theme = Theme::light();
             self.tokens = DesignTokens::light();
         }
-        self.ui = UiTree::new(self.theme);
+        self.ui = UiTree::new();
     }
 }
 
@@ -869,7 +869,7 @@ pub struct ProjectSettings {
 // ==================== FRAME STATS ====================
 
 /// Frame statistics
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone)]
 pub struct FrameStats {
     pub fps: f32,
     pub frame_time: f32,
@@ -877,6 +877,19 @@ pub struct FrameStats {
     pub render_time: f32,
     pub frame_count: u64,
     frame_start: std::time::Instant,
+}
+
+impl Default for FrameStats {
+    fn default() -> Self {
+        Self {
+            fps: 0.0,
+            frame_time: 0.0,
+            update_time: 0.0,
+            render_time: 0.0,
+            frame_count: 0,
+            frame_start: std::time::Instant::now(),
+        }
+    }
 }
 
 impl FrameStats {

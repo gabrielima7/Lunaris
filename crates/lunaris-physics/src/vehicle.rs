@@ -3,7 +3,6 @@
 //! Realistic vehicle simulation with wheels, suspension, and drivetrain.
 
 use glam::{Quat, Vec3};
-use std::collections::HashMap;
 
 /// Wheel info
 #[derive(Debug, Clone)]

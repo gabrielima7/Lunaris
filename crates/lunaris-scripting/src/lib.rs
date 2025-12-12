@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 //! Lunaris Scripting Crate
 //!
 //! Visual scripting and Lua integration for Lunaris Engine.

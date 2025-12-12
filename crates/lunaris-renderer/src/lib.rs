@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 //! # Lunaris Renderer
 //!
 //! GPU-accelerated rendering system for the Lunaris Game Engine.
@@ -60,7 +61,7 @@ pub use particles::{EmitterConfig, Particle, ParticleEmitter, ParticleSystem};
 pub use pipeline2d::{Render2D, RenderStats, SpriteBatch, SpriteInstance};
 pub use pipeline3d::{Light, LightType, MeshInstance, Render3D, RenderStats3D};
 pub use postprocess::{Bloom, ColorGrading, PostProcessStack, ToneMapping};
-pub use terrain::{Heightmap, Terrain, TerrainConfig};
+pub use terrain::{Heightmap, Terrain, TerrainSettings};
 pub use texture::{AnimationPlayer, Sprite, SpriteAnimation, SpriteAtlas, TextureId, TextureInfo};
 
 use lunaris_core::Result;

@@ -3,7 +3,6 @@
 //! Cloud saves, slots, auto-save, and cross-platform sync.
 
 use std::collections::HashMap;
-use std::path::PathBuf;
 
 /// Save system
 pub struct SaveSystem {
@@ -133,7 +132,7 @@ impl SaveSystem {
         Ok(())
     }
 
-    fn sync_from_cloud(&mut self, slot: usize) -> Result<(), String> {
+    fn sync_from_cloud(&mut self, _slot: usize) -> Result<(), String> {
         // Would download from cloud provider
         Ok(())
     }

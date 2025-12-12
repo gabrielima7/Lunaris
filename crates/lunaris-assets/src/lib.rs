@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 //! # Lunaris Assets
 //!
 //! Asset loading, caching, and hot-reloading for the Lunaris Game Engine.

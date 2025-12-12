@@ -2,9 +2,8 @@
 //!
 //! Physics-based ragdoll simulation for characters.
 
-use lunaris_core::math::Vec3;
+use lunaris_core::{id::Id, math::Vec3};
 use super::rigidbody::RigidbodyHandle;
-use std::collections::HashMap;
 
 /// Joint type
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -152,73 +151,73 @@ impl RagdollConfig {
         let bones = vec![
             RagdollBone {
                 name: "Pelvis".to_string(),
-                rigidbody: RigidbodyHandle(0),
+                rigidbody: RigidbodyHandle(Id::from_raw(0)),
                 dimensions: Vec3::new(0.25, 0.1, 0.15),
                 mass: 15.0,
             },
             RagdollBone {
                 name: "Spine".to_string(),
-                rigidbody: RigidbodyHandle(1),
+                rigidbody: RigidbodyHandle(Id::from_raw(1)),
                 dimensions: Vec3::new(0.2, 0.2, 0.12),
                 mass: 10.0,
             },
             RagdollBone {
                 name: "Chest".to_string(),
-                rigidbody: RigidbodyHandle(2),
+                rigidbody: RigidbodyHandle(Id::from_raw(2)),
                 dimensions: Vec3::new(0.25, 0.2, 0.15),
                 mass: 12.0,
             },
             RagdollBone {
                 name: "Head".to_string(),
-                rigidbody: RigidbodyHandle(3),
+                rigidbody: RigidbodyHandle(Id::from_raw(3)),
                 dimensions: Vec3::new(0.12, 0.15, 0.12),
                 mass: 5.0,
             },
             RagdollBone {
                 name: "UpperArmL".to_string(),
-                rigidbody: RigidbodyHandle(4),
+                rigidbody: RigidbodyHandle(Id::from_raw(4)),
                 dimensions: Vec3::new(0.06, 0.25, 0.06),
                 mass: 3.0,
             },
             RagdollBone {
                 name: "UpperArmR".to_string(),
-                rigidbody: RigidbodyHandle(5),
+                rigidbody: RigidbodyHandle(Id::from_raw(5)),
                 dimensions: Vec3::new(0.06, 0.25, 0.06),
                 mass: 3.0,
             },
             RagdollBone {
                 name: "LowerArmL".to_string(),
-                rigidbody: RigidbodyHandle(6),
+                rigidbody: RigidbodyHandle(Id::from_raw(6)),
                 dimensions: Vec3::new(0.05, 0.22, 0.05),
                 mass: 2.0,
             },
             RagdollBone {
                 name: "LowerArmR".to_string(),
-                rigidbody: RigidbodyHandle(7),
+                rigidbody: RigidbodyHandle(Id::from_raw(7)),
                 dimensions: Vec3::new(0.05, 0.22, 0.05),
                 mass: 2.0,
             },
             RagdollBone {
                 name: "UpperLegL".to_string(),
-                rigidbody: RigidbodyHandle(8),
+                rigidbody: RigidbodyHandle(Id::from_raw(8)),
                 dimensions: Vec3::new(0.08, 0.35, 0.08),
                 mass: 8.0,
             },
             RagdollBone {
                 name: "UpperLegR".to_string(),
-                rigidbody: RigidbodyHandle(9),
+                rigidbody: RigidbodyHandle(Id::from_raw(9)),
                 dimensions: Vec3::new(0.08, 0.35, 0.08),
                 mass: 8.0,
             },
             RagdollBone {
                 name: "LowerLegL".to_string(),
-                rigidbody: RigidbodyHandle(10),
+                rigidbody: RigidbodyHandle(Id::from_raw(10)),
                 dimensions: Vec3::new(0.06, 0.35, 0.06),
                 mass: 5.0,
             },
             RagdollBone {
                 name: "LowerLegR".to_string(),
-                rigidbody: RigidbodyHandle(11),
+                rigidbody: RigidbodyHandle(Id::from_raw(11)),
                 dimensions: Vec3::new(0.06, 0.35, 0.06),
                 mass: 5.0,
             },

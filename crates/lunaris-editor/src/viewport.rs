@@ -344,10 +344,10 @@ impl Default for ViewportGrid {
             visible: true,
             size: 100.0,
             subdivisions: 10,
-            color_major: Color::rgba(100, 100, 100, 100),
-            color_minor: Color::rgba(50, 50, 50, 50),
-            color_x: Color::rgba(255, 80, 80, 200),
-            color_z: Color::rgba(80, 80, 255, 200),
+            color_major: Color::rgba(100, 100, 100, 0.4),
+            color_minor: Color::rgba(50, 50, 50, 0.2),
+            color_x: Color::rgba(255, 80, 80, 0.8),
+            color_z: Color::rgba(80, 80, 255, 0.8),
             fade_distance: 50.0,
         }
     }

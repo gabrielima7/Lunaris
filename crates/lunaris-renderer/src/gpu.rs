@@ -48,7 +48,7 @@ impl GraphicsContext {
     ///
     /// Returns an error if GPU initialization fails
     pub async fn new(config: &GraphicsConfig) -> Result<Self> {
-        let instance = Instance::new(&InstanceDescriptor {
+        let instance = Instance::new(InstanceDescriptor {
             backends: Backends::all(),
             dx12_shader_compiler: Dx12Compiler::Fxc,
             flags: if config.validation {
@@ -251,8 +251,6 @@ pub struct Vertex3D {
     pub normal: [f32; 3],
     /// Texture coordinates (u, v)
     pub tex_coords: [f32; 2],
-    /// Tangent for normal mapping
-    pub tangent: [f32; 4],
 }
 
 impl Vertex3D {
@@ -277,12 +275,8 @@ impl Vertex3D {
                     shader_location: 2,
                     format: VertexFormat::Float32x2,
                 },
-                VertexAttribute {
-                    offset: std::mem::size_of::<[f32; 8]>() as BufferAddress,
-                    shader_location: 3,
-                    format: VertexFormat::Float32x4,
-                },
             ],
         }
     }
 }
+

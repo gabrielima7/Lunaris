@@ -72,7 +72,6 @@ pub trait HierarchyCommands {
 }
 
 /// Build a hierarchy of entities
-#[derive(Debug)]
 pub struct HierarchyBuilder<'a> {
     commands: &'a mut Commands<'a, 'a>,
     root: Entity,

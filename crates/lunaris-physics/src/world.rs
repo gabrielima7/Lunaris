@@ -5,7 +5,7 @@ use crate::{
     rigidbody::{ColliderProperties, ForceMode, RigidbodyHandle, RigidbodyProperties, RigidbodyState},
     PhysicsConfig,
 };
-use lunaris_core::{id::Id, math::Vec3, Result};
+use lunaris_core::{id::Id, math::Vec3};
 use std::collections::HashMap;
 
 /// The physics world containing all simulation state
@@ -141,7 +141,7 @@ impl PhysicsWorld {
         // Simplified raycast - in real implementation would use spatial acceleration
         let mut closest: Option<RaycastHit> = None;
 
-        for (handle, body) in &self.bodies {
+        for (_handle, body) in &self.bodies {
             if let Some(collider) = &body.collider {
                 if !query.layers.can_interact(collider.properties.layers) {
                     continue;

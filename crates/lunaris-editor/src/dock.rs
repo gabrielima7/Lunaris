@@ -432,3 +432,30 @@ impl WorkspaceManager {
         });
     }
 }
+
+// ==================== DOCK TREE (ALIAS) ====================
+
+/// Dock tree - alias for WorkspaceManager for compatibility
+pub type DockTree = WorkspaceManager;
+
+/// Dock area identifier
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct DockArea {
+    /// Area name/identifier
+    pub name: String,
+}
+
+/// Tab information for dock system
+#[derive(Debug, Clone)]
+pub struct TabInfo {
+    /// Tab ID
+    pub id: u64,
+    /// Tab title
+    pub title: String,
+    /// Tab icon (optional)
+    pub icon: Option<String>,
+    /// Can close
+    pub closable: bool,
+    /// Has unsaved changes
+    pub dirty: bool,
+}

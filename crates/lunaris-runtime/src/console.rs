@@ -17,7 +17,7 @@ pub enum ConsolePlatform {
 
 /// PlayStation 5 specific features
 pub mod playstation {
-    use super::*;
+    
 
     /// DualSense controller features
     #[derive(Debug, Clone)]
@@ -130,7 +130,7 @@ pub mod playstation {
 
 /// Xbox specific features
 pub mod xbox {
-    use super::*;
+    
 
     /// Xbox controller features
     #[derive(Debug, Clone)]
@@ -192,7 +192,7 @@ pub mod xbox {
 
 /// Nintendo Switch specific features
 pub mod nintendo {
-    use super::*;
+    
 
     /// Joy-Con features
     #[derive(Debug, Clone)]

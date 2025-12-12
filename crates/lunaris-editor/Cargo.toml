@@ -18,3 +18,6 @@ lunaris-scripting.workspace = true
 lunaris-assets.workspace = true
 winit.workspace = true
 tracing.workspace = true
+glam.workspace = true
+serde.workspace = true
+serde_json.workspace = true

@@ -2,11 +2,11 @@
 //!
 //! Provides a cross-platform window abstraction using winit.
 
-use lunaris_core::{input::Input, math::Vec2, Result};
+use lunaris_core::{input::Input, Result};
 use std::sync::Arc;
 use winit::{
     application::ApplicationHandler,
-    dpi::{LogicalSize, PhysicalSize},
+    dpi::LogicalSize,
     event::{ElementState, WindowEvent},
     event_loop::{ActiveEventLoop, ControlFlow, EventLoop},
     window::{Window as WinitWindow, WindowAttributes, WindowId},

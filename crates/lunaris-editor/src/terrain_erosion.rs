@@ -270,7 +270,18 @@ impl ErosionSimulator {
 
     /// Apply hydraulic erosion
     pub fn erode_hydraulic(&mut self, heightmap: &mut [f32], iterations: u32) {
-        let settings = &self.config.hydraulic;
+        // Clone settings to avoid borrow conflicts
+        let inertia = self.config.hydraulic.inertia;
+        let initial_speed = self.config.hydraulic.initial_speed;
+        let initial_water = self.config.hydraulic.initial_water;
+        let max_lifetime = self.config.hydraulic.max_lifetime;
+        let sediment_capacity = self.config.hydraulic.sediment_capacity;
+        let min_sediment_capacity = self.config.hydraulic.min_sediment_capacity;
+        let erosion_speed = self.config.hydraulic.erosion_speed;
+        let deposition_speed = self.config.hydraulic.deposition_speed;
+        let evaporation = self.config.hydraulic.evaporation;
+        let gravity = self.config.hydraulic.gravity;
+        let total_iterations = self.config.iterations;
 
         for _ in 0..iterations {
             // Random starting position
@@ -278,10 +289,10 @@ impl ErosionSimulator {
             let y = self.random() * (self.height - 1) as f32;
 
             let mut droplet = WaterDroplet::new(x, y);
-            droplet.speed = settings.initial_speed;
-            droplet.water = settings.initial_water;
+            droplet.speed = initial_speed;
+            droplet.water = initial_water;
 
-            for _ in 0..settings.max_lifetime {
+            for _ in 0..max_lifetime {
                 let xi = droplet.position.x as usize;
                 let yi = droplet.position.y as usize;
 
@@ -293,8 +304,8 @@ impl ErosionSimulator {
                 let (gradient, height) = self.get_gradient_and_height(heightmap, droplet.position);
 
                 // Update direction with inertia
-                droplet.direction = droplet.direction * settings.inertia 
-                    - gradient * (1.0 - settings.inertia);
+                droplet.direction = droplet.direction * inertia 
+                    - gradient * (1.0 - inertia);
                 
                 let len = droplet.direction.length();
                 if len < 0.0001 {
@@ -318,22 +329,22 @@ impl ErosionSimulator {
                 let delta_height = new_height - height;
 
                 // Calculate sediment capacity
-                let capacity = (-delta_height * droplet.speed * droplet.water * settings.sediment_capacity)
-                    .max(settings.min_sediment_capacity);
+                let capacity = (-delta_height * droplet.speed * droplet.water * sediment_capacity)
+                    .max(min_sediment_capacity);
 
                 if droplet.sediment > capacity || delta_height > 0.0 {
                     // Deposit sediment
                     let deposit_amount = if delta_height > 0.0 {
                         droplet.sediment.min(delta_height)
                     } else {
-                        (droplet.sediment - capacity) * settings.deposition_speed
+                        (droplet.sediment - capacity) * deposition_speed
                     };
 
                     droplet.sediment -= deposit_amount;
                     self.deposit(heightmap, droplet.position, deposit_amount);
                 } else {
                     // Erode
-                    let erode_amount = ((capacity - droplet.sediment) * settings.erosion_speed)
+                    let erode_amount = ((capacity - droplet.sediment) * erosion_speed)
                         .min(-delta_height);
 
                     self.erode(heightmap, droplet.position, erode_amount);
@@ -341,9 +352,9 @@ impl ErosionSimulator {
                 }
 
                 // Update speed and water
-                droplet.speed = (droplet.speed * droplet.speed + delta_height.abs() * settings.gravity)
+                droplet.speed = (droplet.speed * droplet.speed + delta_height.abs() * gravity)
                     .sqrt();
-                droplet.water *= 1.0 - settings.evaporation;
+                droplet.water *= 1.0 - evaporation;
 
                 droplet.position = new_pos;
 
@@ -353,7 +364,7 @@ impl ErosionSimulator {
             }
 
             self.current_iteration += 1;
-            self.progress = self.current_iteration as f32 / self.config.iterations as f32;
+            self.progress = self.current_iteration as f32 / total_iterations as f32;
         }
     }
 

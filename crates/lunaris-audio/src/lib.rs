@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 //! Lunaris Audio Crate
 //!
 //! Audio playback, spatial audio, and procedural audio synthesis.

@@ -325,7 +325,7 @@ impl NetworkServer {
     }
 
     /// Send RPC
-    pub fn rpc(&mut self, object_id: NetObjectId, function: &str, args: Vec<u8>, mode: RpcMode) {
+    pub fn rpc(&mut self, object_id: NetObjectId, _function: &str, args: Vec<u8>, mode: RpcMode) {
         let target = match mode {
             RpcMode::Multicast => None,
             RpcMode::OwnerOnly => {
@@ -436,7 +436,7 @@ impl NetworkClientConnection {
     }
 
     /// Send RPC to server
-    pub fn server_rpc(&mut self, function: &str, args: Vec<u8>) {
+    pub fn server_rpc(&mut self, _function: &str, args: Vec<u8>) {
         self.outgoing.push(NetMessage {
             msg_type: NetMessageType::RpcCall,
             payload: args,
@@ -535,7 +535,7 @@ impl ClientPrediction {
         }
 
         // Re-apply pending inputs on server state
-        for input in &self.pending_inputs {
+        for _input in &self.pending_inputs {
             // Would re-simulate input
         }
 

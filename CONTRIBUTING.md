@@ -33,7 +33,7 @@ By participating in this project, you agree to maintain a respectful and inclusi
 
 ```bash
 # Fork the repository on GitHub, then:
-git clone https://github.com/YOUR_USERNAME/Lunaris.git
+git clone https://github.com/gabrielima7/Lunaris.git
 cd Lunaris
 git remote add upstream https://github.com/gabrielima7/Lunaris.git
 ```

@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 //! # Lunaris Runtime
 //!
 //! The main runtime and application framework for the Lunaris Game Engine.
@@ -25,9 +26,9 @@ pub mod window;
 pub use ai::{BehaviorContext, NavAgent, NavMesh, NavPath};
 pub use audio::{AudioListener, AudioSource, AudioSystem};
 pub use example_game::ExampleGame;
-pub use network::{NetworkClient, NetworkServer, NetworkConfig};
+pub use network::{NetworkClient, NetworkServer};
 pub use plugin::{Plugin, PluginApp, PluginId, PluginManager};
-pub use save::{SaveData, SaveSystem};
+pub use save::{SaveMetadata, SaveSystem};
 pub use window::{AppRunner, Application, Window, WindowConfig, WindowState};
 
 use lunaris_core::Result;

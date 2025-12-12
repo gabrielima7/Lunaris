@@ -4,7 +4,6 @@
 
 use lunaris_core::{
     id::Id,
-    math::{Color, Vec2, Vec3},
     Result,
 };
 use serde::{Deserialize, Serialize};
@@ -430,7 +429,7 @@ impl Prefab {
         let mut root = self.root.clone();
         root.id = Id::new().raw();
 
-        let mut children: Vec<EntityData> = self
+        let children: Vec<EntityData> = self
             .children
             .iter()
             .map(|c| {

@@ -736,8 +736,9 @@ impl AssetBrowserPanel {
 
     /// Go up one level
     pub fn go_up(&mut self) {
-        if let Some(parent) = self.current_path.rsplit_once('/') {
-            self.navigate(parent.0);
+        let parent_path = self.current_path.rsplit_once('/').map(|(p, _)| p.to_string());
+        if let Some(path) = parent_path {
+            self.navigate(&path);
         }
     }
 

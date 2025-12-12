@@ -6,3 +6,4 @@ description = "Audio playback and synthesis for Lunaris Engine"
 license = "MIT"
 
 [dependencies]
+glam = "0.25"

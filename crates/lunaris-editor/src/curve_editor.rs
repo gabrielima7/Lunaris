@@ -302,23 +302,27 @@ impl AnimationCurve {
             return;
         }
 
+        // First pass: collect values we need
+        let values: Vec<f32> = self.keyframes.iter().map(|k| k.value).collect();
+
+        // Second pass: update tangents
         for i in 0..len {
-            let key = &mut self.keyframes[i];
+            let needs_in_auto = self.keyframes[i].in_tangent.mode == TangentMode::Auto;
+            let needs_out_auto = self.keyframes[i].out_tangent.mode == TangentMode::Auto;
             
-            if key.in_tangent.mode == TangentMode::Auto || 
-               key.out_tangent.mode == TangentMode::Auto {
-                
-                let prev_val = if i > 0 { self.keyframes[i - 1].value } else { key.value };
-                let next_val = if i < len - 1 { self.keyframes[i + 1].value } else { key.value };
+            if needs_in_auto || needs_out_auto {
+                let prev_val = if i > 0 { values[i - 1] } else { values[i] };
+                let next_val = if i < len - 1 { values[i + 1] } else { values[i] };
                 
                 // Average slope
                 let slope = (next_val - prev_val) / 2.0;
                 let angle = slope.atan();
                 
-                if key.in_tangent.mode == TangentMode::Auto {
+                let key = &mut self.keyframes[i];
+                if needs_in_auto {
                     key.in_tangent.angle = angle;
                 }
-                if key.out_tangent.mode == TangentMode::Auto {
+                if needs_out_auto {
                     key.out_tangent.angle = angle;
                 }
             }
@@ -537,8 +541,8 @@ impl Default for CurveGridSettings {
         Self {
             show_grid: true,
             show_numbers: true,
-            major_color: Color::rgba(255, 255, 255, 30),
-            minor_color: Color::rgba(255, 255, 255, 10),
+            major_color: Color::rgba(255, 255, 255, 0.12),
+            minor_color: Color::rgba(255, 255, 255, 0.04),
             time_subdivisions: 4,
             value_subdivisions: 4,
         }

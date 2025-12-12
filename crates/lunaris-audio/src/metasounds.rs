@@ -323,7 +323,7 @@ impl MetaSoundsPreset {
             }
             Self::WeaponFire => {
                 let noise = graph.add_node(AudioNodeType::Noise);
-                let osc = graph.add_node(AudioNodeType::Oscillator);
+                let _osc = graph.add_node(AudioNodeType::Oscillator);
                 let env = graph.add_node(AudioNodeType::Envelope);
                 let filter = graph.add_node(AudioNodeType::LowPass);
                 let dist = graph.add_node(AudioNodeType::Distortion);
@@ -342,8 +342,8 @@ impl MetaSoundsPreset {
                 let osc2 = graph.add_node(AudioNodeType::Oscillator);
                 let lfo = graph.add_node(AudioNodeType::LFO);
                 let filter = graph.add_node(AudioNodeType::LowPass);
-                let dist = graph.add_node(AudioNodeType::Distortion);
-                let output = graph.add_node(AudioNodeType::Output);
+                let _dist = graph.add_node(AudioNodeType::Distortion);
+                let _output = graph.add_node(AudioNodeType::Output);
 
                 graph.set_param(osc1, "frequency", AudioValue::Float(60.0));
                 graph.set_param(osc2, "frequency", AudioValue::Float(120.0));

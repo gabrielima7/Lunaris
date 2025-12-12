@@ -2,7 +2,7 @@
 //!
 //! Advanced physics features matching Unreal's Chaos physics.
 
-use glam::{Vec3, Quat, Mat4};
+use glam::{Vec3, Mat4};
 use std::collections::HashMap;
 
 /// Physics solver type
@@ -420,7 +420,7 @@ impl ChaosPhysics {
         }
     }
 
-    fn substep(&mut self, dt: f32) {
+    fn substep(&mut self, _dt: f32) {
         // Apply fields to collections
         for field in self.fields.values() {
             if !field.enabled {
@@ -439,7 +439,7 @@ impl ChaosPhysics {
         }
 
         // Check anchors
-        for anchor in self.anchors.values_mut() {
+        for _anchor in self.anchors.values_mut() {
             // Would check strain on anchor
         }
     }

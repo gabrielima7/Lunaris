@@ -221,6 +221,12 @@ impl Vec3 {
     pub fn distance(self, other: Self) -> f32 {
         (other - self).length()
     }
+
+    /// Squared distance to another vector (faster, no sqrt)
+    #[must_use]
+    pub fn distance_squared(self, other: Self) -> f32 {
+        (other - self).length_squared()
+    }
 }
 
 impl Add for Vec3 {
@@ -488,6 +494,30 @@ impl Color {
             b: self.b + (other.b - self.b) * t,
             a: self.a + (other.a - self.a) * t,
         }
+    }
+}
+
+impl Add for Color {
+    type Output = Self;
+    fn add(self, other: Self) -> Self {
+        Self::new(
+            self.r + other.r,
+            self.g + other.g,
+            self.b + other.b,
+            self.a + other.a,
+        )
+    }
+}
+
+impl Mul<f32> for Color {
+    type Output = Self;
+    fn mul(self, scalar: f32) -> Self {
+        Self::new(
+            self.r * scalar,
+            self.g * scalar,
+            self.b * scalar,
+            self.a * scalar,
+        )
     }
 }
 

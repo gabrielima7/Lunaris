@@ -2,7 +2,7 @@
 //!
 //! Advanced input management with action mapping and rebinding.
 
-use lunaris_core::input::{Key, MouseButton};
+use crate::input::{Key, MouseButton};
 use std::collections::HashMap;
 
 /// Input action

@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 //! # Lunaris Core
 //!
 //! Core utilities, types, and foundational abstractions for the Lunaris Game Engine.
@@ -11,10 +12,10 @@
 
 #![warn(missing_docs)]
 #![warn(clippy::all)]
-#![deny(unsafe_code)]
 
 pub mod api_stable;
 pub mod error;
+pub mod id;
 pub mod input;
 pub mod input_action;
 pub mod logger;
@@ -24,11 +25,12 @@ pub mod profiler;
 pub mod time;
 
 pub use error::{Error, Result};
-pub use input::{InputState, Key, MouseButton};
+pub use id::{Id, TypedId};
+pub use input::{Input, Key, MouseButton};
 pub use input_action::{InputAction, InputBinding, InputMap};
 pub use logger::{LogLevel, Logger};
 pub use math::{Color, Rect, Transform2D};
-pub use time::{Time, Timer};
+pub use time::Time;
 
 /// Lunaris Engine version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -45,7 +47,7 @@ pub fn init() -> Result<()> {
                 .add_directive(tracing::Level::INFO.into()),
         )
         .try_init()
-        .map_err(|e| Error::Init(e.to_string()))?;
+        .map_err(|e: Box<dyn std::error::Error + Send + Sync>| Error::Init(e.to_string()))?;
 
     tracing::info!("Lunaris Engine v{VERSION} initialized");
     Ok(())

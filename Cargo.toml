@@ -6,11 +6,18 @@ members = [
     "crates/lunaris-runtime",
     "crates/lunaris-renderer",
     "crates/lunaris-editor",
+    "crates/lunaris-ecs",
+    "crates/lunaris-physics",
+    "crates/lunaris-audio",
+    "crates/lunaris-scripting",
+    "crates/lunaris-assets",
 ]
 
 [workspace.package]
 version = "1.0.0"
 edition = "2021"
+rust-version = "1.70"
+authors = ["Gabriel Lima <gabriel@lunaris.dev>"]
 license = "MIT"
 repository = "https://github.com/gabrielima7/Lunaris"
 homepage = "https://lunaris.dev"
@@ -19,13 +26,33 @@ readme = "README.md"
 keywords = ["game-engine", "gamedev", "graphics", "ecs", "rendering"]
 categories = ["game-engines", "graphics", "rendering"]
 
+[workspace.lints.rust]
+unsafe_code = "warn"
+
+[workspace.lints.clippy]
+all = "warn"
+
 [workspace.dependencies]
-glam = "0.25"
+# Internal crates
+lunaris-core = { path = "crates/lunaris-core" }
+lunaris-runtime = { path = "crates/lunaris-runtime" }
+lunaris-renderer = { path = "crates/lunaris-renderer" }
+lunaris-editor = { path = "crates/lunaris-editor" }
+lunaris-ecs = { path = "crates/lunaris-ecs" }
+lunaris-physics = { path = "crates/lunaris-physics" }
+lunaris-audio = { path = "crates/lunaris-audio" }
+lunaris-scripting = { path = "crates/lunaris-scripting" }
+lunaris-assets = { path = "crates/lunaris-assets" }
+
+# External dependencies
+glam = { version = "0.25", features = ["serde"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 thiserror = "1.0"
+anyhow = "1.0"
 log = "0.4"
 env_logger = "0.10"
+tracing = "0.1"
 parking_lot = "0.12"
 rayon = "1.8"
 crossbeam = "0.8"
@@ -35,6 +62,12 @@ bitflags = "2.4"
 bytemuck = { version = "1.14", features = ["derive"] }
 image = "0.24"
 rand = "0.8"
+criterion = "0.5"
+wgpu = "23.0"
+winit = "0.30"
+bevy_ecs = "0.12"
+tokio = { version = "1.0", features = ["full"] }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 [profile.release]
 opt-level = 3

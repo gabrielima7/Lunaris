@@ -208,6 +208,7 @@ impl Mesh {
             }
         }
 
+        let index_count = indices.len() as u32;
         Self {
             id: MeshId::new(),
             name: "Sphere".to_string(),
@@ -217,7 +218,7 @@ impl Mesh {
             bounds_max: Vec3::new(radius, radius, radius),
             submeshes: vec![SubMesh {
                 start_index: 0,
-                index_count: indices.len() as u32,
+                index_count,
                 material_index: 0,
             }],
         }
@@ -275,6 +276,7 @@ impl Mesh {
             tex_coords: [0.5, 0.5],
         });
 
+        let index_count = indices.len() as u32;
         Self {
             id: MeshId::new(),
             name: "Cylinder".to_string(),
@@ -284,7 +286,7 @@ impl Mesh {
             bounds_max: Vec3::new(radius, half_height, radius),
             submeshes: vec![SubMesh {
                 start_index: 0,
-                index_count: indices.len() as u32,
+                index_count,
                 material_index: 0,
             }],
         }

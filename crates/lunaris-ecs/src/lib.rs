@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 //! # Lunaris ECS
 //!
 //! Entity Component System for the Lunaris Game Engine.

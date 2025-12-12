@@ -208,7 +208,7 @@ impl StreamingManager {
     }
 
     /// Update streaming
-    pub fn update(&mut self, camera_position: glam::Vec3) {
+    pub fn update(&mut self, _camera_position: glam::Vec3) {
         // Update distances
         for asset in self.assets.values_mut() {
             // Simplified - would use asset position

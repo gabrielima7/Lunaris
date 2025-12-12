@@ -396,11 +396,15 @@ impl PluginRegistry {
 
     /// Enable plugin
     pub fn enable(&mut self, id: &str) -> Result<(), PluginError> {
-        let plugin = self.plugins.get_mut(id)
-            .ok_or_else(|| PluginError::NotFound(id.to_string()))?;
+        // First get dependencies to check
+        let dependencies = {
+            let plugin = self.plugins.get(id)
+                .ok_or_else(|| PluginError::NotFound(id.to_string()))?;
+            plugin.manifest.dependencies.clone()
+        };
 
-        // Check dependencies
-        for dep in &plugin.manifest.dependencies {
+        // Check dependencies without holding mutable borrow
+        for dep in &dependencies {
             if !dep.optional && !self.plugins.contains_key(&dep.plugin_id) {
                 return Err(PluginError::DependencyNotMet {
                     plugin: id.to_string(),
@@ -409,7 +413,10 @@ impl PluginRegistry {
             }
         }
 
-        plugin.state = PluginState::Loaded;
+        // Now we can modify the plugin
+        if let Some(plugin) = self.plugins.get_mut(id) {
+            plugin.state = PluginState::Loaded;
+        }
         
         if !self.active.contains(&id.to_string()) {
             self.active.push(id.to_string());
@@ -483,7 +490,7 @@ impl MarketplaceClient {
     }
 
     /// Search plugins
-    pub fn search(&self, query: &str, category: Option<PluginCategory>) -> Vec<MarketplaceEntry> {
+    pub fn search(&self, _query: &str, category: Option<PluginCategory>) -> Vec<MarketplaceEntry> {
         // Would call API
         // Return example entries
         vec![
@@ -509,7 +516,7 @@ impl MarketplaceClient {
     }
 
     /// Rate plugin
-    pub fn rate(&self, id: &str, rating: u8) -> Result<(), MarketplaceError> {
+    pub fn rate(&self, _id: &str, _rating: u8) -> Result<(), MarketplaceError> {
         if self.token.is_none() {
             return Err(MarketplaceError::AuthRequired);
         }

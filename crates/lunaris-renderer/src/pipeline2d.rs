@@ -7,6 +7,7 @@ use crate::texture::TextureId;
 use lunaris_core::math::{Color, Rect, Vec2};
 use std::collections::HashMap;
 use wgpu::*;
+use wgpu::util::DeviceExt;
 
 /// Maximum sprites per batch
 pub const MAX_SPRITES_PER_BATCH: usize = 10000;

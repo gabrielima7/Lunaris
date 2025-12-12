@@ -13,7 +13,7 @@ pub enum Platform {
     MacOS,
     
     // Mobile
-    iOS,
+    Ios,
     Android,
     
     // Console
@@ -47,7 +47,7 @@ impl Platform {
     pub fn all() -> Vec<Self> {
         vec![
             Self::Windows, Self::Linux, Self::MacOS,
-            Self::iOS, Self::Android,
+            Self::Ios, Self::Android,
             Self::PlayStation5, Self::XboxSeriesX, Self::NintendoSwitch,
             Self::WebAssembly, Self::WebGPU,
             Self::MetaQuest, Self::AppleVisionPro, Self::SteamVR, Self::PSVR2,
@@ -65,7 +65,7 @@ impl Platform {
     /// Is mobile platform
     #[must_use]
     pub fn is_mobile(&self) -> bool {
-        matches!(self, Self::iOS | Self::Android)
+        matches!(self, Self::Ios | Self::Android)
     }
 
     /// Is console platform
@@ -92,7 +92,7 @@ impl Platform {
         match self {
             Self::Windows => GraphicsBackend::DirectX12,
             Self::Linux | Self::Android | Self::SteamDeck => GraphicsBackend::Vulkan,
-            Self::MacOS | Self::iOS | Self::AppleVisionPro => GraphicsBackend::Metal,
+            Self::MacOS | Self::Ios | Self::AppleVisionPro => GraphicsBackend::Metal,
             Self::PlayStation5 | Self::PSVR2 => GraphicsBackend::GNM,
             Self::XboxSeriesX | Self::XCloud => GraphicsBackend::DirectX12,
             Self::NintendoSwitch => GraphicsBackend::NVN,
@@ -110,7 +110,7 @@ impl Platform {
         match self {
             Self::Windows | Self::XboxSeriesX | Self::XCloud => AudioBackend::XAudio2,
             Self::Linux | Self::SteamDeck | Self::RaspberryPi => AudioBackend::PulseAudio,
-            Self::MacOS | Self::iOS | Self::AppleVisionPro => AudioBackend::CoreAudio,
+            Self::MacOS | Self::Ios | Self::AppleVisionPro => AudioBackend::CoreAudio,
             Self::Android | Self::MetaQuest => AudioBackend::AAudio,
             Self::PlayStation5 | Self::PSVR2 | Self::PlayStationNow => AudioBackend::Tempest,
             Self::NintendoSwitch => AudioBackend::NintendoAudio,
@@ -264,7 +264,7 @@ impl PlatformCapabilities {
                 hdr: false,
                 max_fps: 60,
             },
-            Platform::iOS => Self {
+            Platform::Ios => Self {
                 platform,
                 max_texture_size: 8192,
                 max_render_targets: 4,

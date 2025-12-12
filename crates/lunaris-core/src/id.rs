@@ -45,10 +45,32 @@ impl std::fmt::Display for Id {
 }
 
 /// A typed identifier wrapper for type-safe resource references
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug)]
 pub struct TypedId<T> {
     id: Id,
     _marker: std::marker::PhantomData<T>,
+}
+
+impl<T> Clone for TypedId<T> {
+    fn clone(&self) -> Self {
+        *self
+    }
+}
+
+impl<T> Copy for TypedId<T> {}
+
+impl<T> PartialEq for TypedId<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.id == other.id
+    }
+}
+
+impl<T> Eq for TypedId<T> {}
+
+impl<T> std::hash::Hash for TypedId<T> {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.id.hash(state);
+    }
 }
 
 impl<T> TypedId<T> {

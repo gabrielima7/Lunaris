@@ -2,7 +2,7 @@
 //!
 //! Pathfinding and navigation mesh for AI agents.
 
-use lunaris_core::math::{Vec2, Vec3};
+use lunaris_core::math::Vec3;
 use std::collections::{BinaryHeap, HashMap, HashSet};
 
 /// Navigation mesh polygon

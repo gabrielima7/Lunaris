@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 //! # Lunaris Physics
 //!
 //! Physics simulation for the Lunaris Game Engine.

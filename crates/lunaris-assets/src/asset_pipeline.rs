@@ -586,8 +586,8 @@ impl AssetWatcher {
                     if path.is_file() {
                         if let Ok(metadata) = std::fs::metadata(&path) {
                             if let Ok(modified) = metadata.modified() {
-                                let prev = self.modification_times.get(&path);
-                                if prev.map_or(true, |&prev| modified > prev) {
+                                let prev = self.modification_times.get(&path).copied();
+                                if prev.map_or(true, |prev| modified > prev) {
                                     self.modification_times.insert(path.clone(), modified);
                                     if prev.is_some() {
                                         changed.push(path);

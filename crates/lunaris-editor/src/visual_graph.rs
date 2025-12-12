@@ -475,8 +475,8 @@ impl Default for GridSettings {
             subdivision: 4,
             snap_enabled: true,
             snap_size: 16.0,
-            major_color: Color::rgba(255, 255, 255, 20),
-            minor_color: Color::rgba(255, 255, 255, 8),
+            major_color: Color::rgba(255, 255, 255, 0.08),
+            minor_color: Color::rgba(255, 255, 255, 0.03),
         }
     }
 }

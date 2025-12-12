@@ -81,12 +81,12 @@ impl MotionFeatures {
 
         // Trajectory
         for (a, b) in self.future_trajectory.iter().zip(&other.future_trajectory) {
-            dist += (a - b).length_squared() * weights.trajectory;
+            dist += (*a - *b).length_squared() * weights.trajectory;
         }
 
         // Directions
         for (a, b) in self.future_directions.iter().zip(&other.future_directions) {
-            dist += (a - b).length_squared() * weights.direction;
+            dist += (*a - *b).length_squared() * weights.direction;
         }
 
         // Feet

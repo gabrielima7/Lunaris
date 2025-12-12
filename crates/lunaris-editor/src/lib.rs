@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 //! # Lunaris Editor
 //!
 //! Visual editor for the Lunaris Game Engine.
