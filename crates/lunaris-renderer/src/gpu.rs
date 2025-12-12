@@ -98,6 +98,46 @@ impl GraphicsContext {
         })
     }
 
+    /// Create surface for window
+    pub fn create_surface(&mut self, target: impl Into<SurfaceTarget<'static>>, width: u32, height: u32) -> Result<()> {
+        let surface = self.instance.create_surface(target)
+             .map_err(|e| lunaris_core::Error::Renderer(e.to_string()))?;
+
+        let caps = surface.get_capabilities(&self.adapter);
+        let format = caps.formats.iter()
+            .copied()
+            .find(|f| f.is_srgb())
+            .unwrap_or(caps.formats[0]);
+
+        let config = SurfaceConfiguration {
+            usage: TextureUsages::RENDER_ATTACHMENT,
+            format,
+            width,
+            height,
+            present_mode: PresentMode::AutoVsync,
+            alpha_mode: caps.alpha_modes[0],
+            view_formats: vec![],
+            desired_maximum_frame_latency: 2,
+        };
+
+        surface.configure(&self.device, &config);
+
+        self.surface = Some(surface);
+        self.surface_config = Some(config);
+        Ok(())
+    }
+
+    /// Resize surface
+    pub fn resize(&mut self, width: u32, height: u32) {
+        if let (Some(surface), Some(config)) = (&self.surface, &mut self.surface_config) {
+            if width > 0 && height > 0 {
+                config.width = width;
+                config.height = height;
+                surface.configure(&self.device, config);
+            }
+        }
+    }
+
     /// Get the device
     #[must_use]
     pub fn device(&self) -> &Arc<Device> {
